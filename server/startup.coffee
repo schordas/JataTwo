@@ -5,7 +5,8 @@ if Meteor.isServer
     Converter = Meteor.npmRequire('csvtojson').core.Converter
     fs = Meteor.npmRequire('fs')
 
-    csvFileName = "*./public/data.csv"
+    projectRoot = "../../../../../";
+    csvFileName = projectRoot + 'public/data.csv'
     fileStream = fs.createReadStream(csvFileName)
 
     #new converter instance

@@ -1,6 +1,6 @@
 <template name="table">
-  <div id="table" class="table table-responsive data-table">
-    <table class="table table-hover table-bordered">
+  <div id="table" class="table table-responsive data-table-container">
+    <table class="table table-bordered table-striped data-table">
       <thead>
         <tr>
           <th>Fiscal Year</th>
@@ -25,9 +25,9 @@
         </tr>
       </thead>
         <tbody>
-          <td>{{project}}</td>
-          <td>{{taskNum}}</td>
-          <td>{{taskMan}}</td>
+            <td>{{project}}</td>
+            <td>{{taskNum}}</td>
+            <td>{{taskMan}}</td>
         </tbody>
     </table>
   </div>

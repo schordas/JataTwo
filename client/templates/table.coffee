@@ -3,10 +3,10 @@ Template.table.helpers
     project = Session.get 'project'
     return project
 
-    taskNum: ->
-      taskNum = Session.get 'taskNum'
-      return taskNum
+  taskNum: ->
+    taskNum = Session.get 'taskNum'
+    return taskNum
 
-    taskMan: ->
-      taskMan = Session.get 'taskMan' 
-      return taskMan
+  taskMan: ->
+    taskMan = Session.get 'taskMan'
+    return taskMan

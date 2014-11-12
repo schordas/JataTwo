@@ -16,11 +16,6 @@
   text-anchor: end;
 }
 
-
-
-
-
-
 .grid-block, .main, .post, .comments li, .comment-form {
   background: #fff;
   -webkit-border-radius: 3px;
@@ -270,9 +265,20 @@ body {
     line-height: normal;
 }
 /*Data Table*/
-.data-table {
+.data-table-container {
   height:400px;
   overflow: auto;
+}
+.data-table {
+  border: 1px solid grey;
+  table-layout: auto;
+  white-space: nowrap;
+}
+.data-table thead>tr>th{
+  border: 1px solid grey;
+}
+.data-table td{
+  border: 1px solid #ddd;
 }
 
 @media(min-width:768px) {

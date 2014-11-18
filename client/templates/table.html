@@ -1,6 +1,7 @@
 <template name="table">
   <div id="table" class="table table-responsive data-table-container">
-    <table class="table table-bordered table-striped data-table">
+    {{> reactiveTable settings=settings}}
+    <!-- <table class="table table-bordered table-striped data-table">
       <thead>
         <tr>
           <th>Fiscal Year</th>
@@ -29,6 +30,6 @@
             <td>{{taskNum}}</td>
             <td>{{taskMan}}</td>
         </tbody>
-    </table>
+    </table> -->
   </div>
 </template>

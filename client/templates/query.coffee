@@ -5,7 +5,8 @@ Template.sidebarQuery.events
     taskNum = t.find("[name=taskNum]")?.value
     taskMan = t.find("[name=taskMan]")?.value
     Meteor.subscribe 'data'
-    query = {"Project Number" : project} #, "MTD Raw Oblg Plan" : "9687"}
+    query = {"Project Number" : project, "Task Number" : taskNum} #, "MTD Raw Oblg Plan" : "9687"}
+    Session.set "query", query
     count = Data.find(query).count()
     console.log(count)
     # Not sure this is the right way to do this.

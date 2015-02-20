@@ -1,2 +1,2 @@
-@Data = new Meteor.Collection 'data'
+@Data = new Mongo.Collection 'data'
 @Temp = new Meteor.Collection 'temp'

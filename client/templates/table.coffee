@@ -1,5 +1,6 @@
 Template.table.helpers
   settings: ->
+    console.log("Data " + Data.find().count())
     return {
     collection: Data.find(Session.get 'query'),
     rowsPerPage: 10,

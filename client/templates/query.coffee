@@ -4,7 +4,6 @@ Template.sidebarQuery.events
     project = t.find("[name=project]")?.value
     taskNum = t.find("[name=taskNum]")?.value
     taskMan = t.find("[name=taskMan]")?.value
-    Meteor.subscribe 'data'
     query = {}
     projectFinal = ""
     taskNumFinal = ""
@@ -14,10 +13,14 @@ Template.sidebarQuery.events
       query = {"Project Number" : project}
     else if !project && taskNum
       query = {"Task Number" : taskNum}
-    else console.log("Empty Query")
-    Session.set "query", query
+    else
+      console.log("Empty Query")
+    console.log(query)
+    Meteor.subscribe('data', query)
     count = Data.find(query).count()
     console.log(count)
+    Session.set "query", query
+    #count = Data.find(query).count()
     #Still having latency issues
     Session.set "project", project
     Session.set "taskNum", taskNum

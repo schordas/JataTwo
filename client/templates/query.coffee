@@ -15,14 +15,20 @@ Template.sidebarQuery.events
       query = {"Task Number" : taskNum}
     else
       console.log("Empty Query")
-    console.log(query)
+    #console.log(query)
     Meteor.subscribe('data', query)
     count = Data.find(query).count()
-    console.log(count)
+    #console.log(count)
     Session.set "query", query
     #count = Data.find(query).count()
     #Still having latency issues
     Session.set "project", project
     Session.set "taskNum", taskNum
     Session.set "taskMan", taskMan
+    Meteor.call 'outputCSV', query, (error) ->
+      if error
+        console.log 'Some shit went down'
+      else
+        console.log 'YAY! Beast mode ACTIVATED!!!!'
+      return    
     return false

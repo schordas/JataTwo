@@ -28,6 +28,15 @@ Template.sidebarQuery.events
     console.log "click fired"
     query = Session.get 'query'
     console.log query
+    bootbox.dialog
+      message: "Select the file type you would like to export",
+      buttons:
+        json:
+          label:"JSON",
+          className:"btn-json",
+          callback: ->
+            console.log "Chose JSON"
+            return
     if typeof query != 'undefined'
       Meteor.call 'outputCSV', query, (error) ->
         if error

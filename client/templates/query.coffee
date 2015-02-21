@@ -16,7 +16,6 @@ Template.sidebarQuery.events
     else
       console.log("Empty Query")
     #console.log(query)
-
     Meteor.subscribe('data', query)
     Session.set "query", query
     #count = Data.find(query).count()
@@ -24,12 +23,16 @@ Template.sidebarQuery.events
     Session.set "project", project
     Session.set "taskNum", taskNum
     Session.set "taskMan", taskMan
-    Meteor.call 'outputCSV', query, (error) ->
-      if error
-        console.log 'Some shit went down'
-      else
-        console.log 'YAY! Beast mode ACTIVATED!!!!'
-      return
     return false
   'click button': ->
-    console.log("I have been clicked")
+    console.log "click fired"
+    query = Session.get 'query'
+    console.log query
+    if typeof query != 'undefined'
+      Meteor.call 'outputCSV', query, (error) ->
+        if error
+          console.log 'Error'
+        else
+          console.log 'Everything good!'
+        return
+    else console.log 'nothing to export'

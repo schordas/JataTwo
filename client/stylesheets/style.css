@@ -291,4 +291,17 @@ body {
     }
 }
 
+#overlay
+{
+  visibility: hidden;
+  position: absolute;
+  left: 90px;
+  top: 120px;
+  width:200px;
+  height:90px;
+  text-align:center;
+  border: solid;
+  background-color: lightgray;
+}
+
 }

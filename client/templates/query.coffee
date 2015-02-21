@@ -16,9 +16,8 @@ Template.sidebarQuery.events
     else
       console.log("Empty Query")
     #console.log(query)
+
     Meteor.subscribe('data', query)
-    count = Data.find(query).count()
-    #console.log(count)
     Session.set "query", query
     #count = Data.find(query).count()
     #Still having latency issues
@@ -30,5 +29,7 @@ Template.sidebarQuery.events
         console.log 'Some shit went down'
       else
         console.log 'YAY! Beast mode ACTIVATED!!!!'
-      return    
+      return
     return false
+  'click button': ->
+    console.log("I have been clicked")

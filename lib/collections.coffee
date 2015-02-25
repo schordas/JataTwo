@@ -1,1 +1,2 @@
 @Data = new Mongo.Collection 'data'
+@Temp = new Meteor.Collection 'temp'

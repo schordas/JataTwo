@@ -1,42 +1,9 @@
 <template name="page">
   <div id="page-wrapper">
     <div class="container-fluid">
-      <div class="col-lg-12">
-        <h1 class="page-header">
-          Data Table
-        </h1>
-        {{#if showTable}}
-          <div class = "table">
-            {{> table}}
-          </div>
-        {{else}}
-          <ol class="breadcrumb">
-            <li class="active">
-              Will populate on query.
-            </li>
-          </ol>
-        {{/if}}
-      </div>
-      <div class="col-lg-12">
-        <h1 class="page-header">
-          Graphs
-        </h1>
-        <ol class="breadcrumb">
-          <li class="active">
-            Will populate on query and graph selection.
-          </li>
-        </ol>
-      </div>
-      <div class="col-lg-12">
-        <h1 class="page-header">
-          Chart
-        </h1>
-        <ol class="breadcrumb">
-          <li class="active">
-            Will populate on query and chart selection.
-          </li>
-        </ol>
-      </div>
+      {{> tableContainer}}
+      {{> graphContainer}}
+      {{> chartContainer}}
     </div>
   </div>
 </template>

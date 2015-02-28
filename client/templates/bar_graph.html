@@ -1,4 +1,18 @@
 <template name="barGraph">
-  <svg class="bar_graph">
-  </svg>
+	<div class="col-lg-12">
+        <h1 class="page-header">
+          Graphs
+        </h1>
+        <ol class="breadcrumb">
+          <li class="active">
+          	{{#if showBarGraph}}
+	            <svg class="bar_graph">
+	            	BAR GRAPH GOES HERE!
+	  			</svg>
+  			{{else}}
+  				Will populate on query.
+  			{{/if}}
+          </li>
+        </ol>
+	</div>
 </template>

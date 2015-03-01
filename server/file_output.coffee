@@ -1,11 +1,21 @@
 Meteor.methods
-  outputJSON: (query) ->
-    console.log 'hmm'
+  createJSON: (query, fileId) ->
+    dirPath = '../../../../../tmp/'
+    filePath = dirPath + 'query_json_' + fileId + '.json' 
+    data = Data.find(query).fetch()
+    jsonData = JSON.stringify(data)
+    fs = Npm.require('fs')
+    fs.writeFile filePath, jsonData, (err) ->
+      if err
+        console.log err
+      return
     return
-  outputCSV: (query) ->
+
+  createCSV: (query, fileId) ->
+    dirPath = '../../../../../tmp/'
+    filePath = dirPath + 'query_csv_' + fileId + '.csv' 
     data = Data.find(query)
     fs = Npm.require('fs')
-    path = '../../../../../'
     outputString = ''
     hasCols = false
     data.forEach (item) ->
@@ -23,10 +33,40 @@ Meteor.methods
           outputString += item[field] + ','
       outputString += '\n'
       return
-    fs.writeFile path + 'query.csv', outputString, (err) ->
+    fs.writeFile filePath, outputString, (err) ->
       if err
         console.log err
-      else
-        console.log 'The file was saved!'
       return
     return
+
+#
+# Output file to client
+#
+fs = Npm.require('fs')
+
+fail = (response) ->
+  response.statusCode = 404
+  response.end()
+  return
+
+outputDataFile = ->
+  fileId = @params.fileId  
+  fileType = @params.fileType
+  fileName = 'query_' + fileType + '_' + fileId + '.' + fileType
+  filePath = '../../../../../tmp/' + fileName
+  # Attempt to read the file size
+  stat = null
+  try
+    stat = fs.statSync(filePath)
+  catch _error
+    return fail(@response)
+  # Set the headers
+  @response.writeHead 200,
+    'Content-Type': 'text/' + fileType
+    'Content-Disposition': 'attachment; filename=' + fileName
+    'Content-Length': stat.size
+  # Pipe the file contents to the response
+  fs.createReadStream(filePath).pipe @response
+  return
+
+Router.route '/data/:fileId/fileType/:fileType', outputDataFile, where: 'server'

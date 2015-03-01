@@ -17,3 +17,5 @@ npm-container
 aslagle:reactive-table
 
 mizzao:bootboxjs
+iron:router
+momentjs:moment

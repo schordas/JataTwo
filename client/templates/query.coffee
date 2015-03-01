@@ -15,7 +15,6 @@ Template.sidebarQuery.events
       query = {"Task Number" : taskNum}
     else
       console.log("Empty Query")
-    #console.log(query)
     Meteor.subscribe('data', query)
     Session.set "query", query
     #count = Data.find(query).count()
@@ -23,25 +22,16 @@ Template.sidebarQuery.events
     Session.set "project", project
     Session.set "taskNum", taskNum
     Session.set "taskMan", taskMan
-    return false
-  'click button': ->
-    console.log "click fired"
-    query = Session.get 'query'
-    console.log query
-    bootbox.dialog
-      message: "Select the file type you would like to export",
-      buttons:
-        json:
-          label:"JSON",
-          className:"btn-json",
-          callback: ->
-            console.log "Chose JSON"
-            return
+    fileId = moment().format()
+    Session.set "fileId", fileId
+    # output files
     if typeof query != 'undefined'
-      Meteor.call 'outputCSV', query, (error) ->
+      Meteor.call 'createCSV', query, fileId, (error) ->
         if error
-          console.log 'Error'
-        else
-          console.log 'Everything good!'
+          console.log 'Error creating CSV file'
         return
-    else console.log 'nothing to export'
+      Meteor.call 'createJSON', query, fileId, (error) ->
+        if error
+          console.log 'Error creating JSON file'
+        return
+    return false

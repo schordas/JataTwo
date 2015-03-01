@@ -17,7 +17,7 @@
 }
 
 .grid-block, .main, .post, .comments li, .comment-form {
-  background: #fff;
+  /*background: #fff;*/
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
@@ -184,7 +184,7 @@ body {
 }
 
 /*Sidebar nav*/
-@media(min-width:768px) {
+/*@media(min-width:768px) {
 
     .side-nav {
         position: fixed;
@@ -201,7 +201,7 @@ body {
         width: 225px;
     }
 
-}
+}*/
 
 .side-nav>li {
   padding: 15px;
@@ -234,19 +234,25 @@ body {
   width: 220px;
 }
 
-.btn {
-  float: left;
+
+/*.form-group>li {
+  padding-right: 20px;
+  padding-left:20px;
+}*/
+
+.btn-row{
+  padding-top:10px
 }
 
-.query-form {
+/*.query-form {
   padding: 0px;
-}
+}*/
 
 /*Main panel*/
 
 @media(min-width:768px) {
     body {
-        margin-top: 50px;
+        /*margin-top: 50px;*/
     }
 }
 
@@ -282,9 +288,9 @@ body {
 }
 
 @media(min-width:768px) {
-    #wrapper {
+    /*#wrapper {
         padding-left: 225px;
-    }
+    }*/
 
     #page-wrapper {
         padding: 10px;

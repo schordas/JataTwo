@@ -2,8 +2,10 @@ Jata Data Visualizer
 ====================
 Run this command to parse your csv to json:
 
-*We no longer need to convert to JSON, w are uploading CSV. 
 `python parser.py filename.csv`
+
+*We no longer need to convert to JSON, we are uploading CSV. 
+
 
 
 Run this command to load the json into the data base:

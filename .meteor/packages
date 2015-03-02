@@ -18,3 +18,4 @@ aslagle:reactive-table
 mizzao:bootboxjs
 iron:router
 momentjs:moment
+percolate:synced-cron

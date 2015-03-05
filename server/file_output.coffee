@@ -2,10 +2,24 @@ Meteor.methods
   createJSON: (query, fileId) ->
     dirPath = '../../../../../tmp/'
     filePath = dirPath + 'query_json_' + fileId + '.json' 
-    data = Data.find(query).fetch()
-    jsonData = JSON.stringify(data)
+    data = Data.find(query)
     fs = Npm.require('fs')
-    fs.writeFile filePath, jsonData, (err) ->
+    # print out each row
+    outputString = '[\n'
+    data.forEach (item) ->
+      outputString += '\t{\n'      
+      for field of item
+        if field != '_id'
+          outputString += '\t\t"' + field + '" : '
+          if isNaN(item[field])
+            outputString += '"' + item[field] + '"'
+          else
+            outputString += item[field]
+          outputString += ',\n'
+      outputString += '\t},\n'
+      return
+    outputString += ']'
+    fs.writeFile filePath, outputString, (err) ->
       if err
         console.log err
       return

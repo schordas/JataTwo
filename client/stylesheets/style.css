@@ -257,7 +257,15 @@ body {
   padding-top:10px
 }
 
+a {
+  color: red;
+}
 
+a:hover,
+a:focus {
+  color: #ce1126;
+  text-decoration: underline;
+}
 
 /*.query-form {
   padding: 0px;
@@ -269,6 +277,52 @@ body {
     body {
         /*margin-top: 50px;*/
     }
+  .navbar-nav > li > a {
+    padding-top: 20px;
+  }
+}
+
+.btn-primary {
+  background: red;
+  border-color: red;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #ce1126;
+  border-color: #ce1126;
+}
+
+#header-logo {
+  width: 100px;
+  margin: 8px;
+}
+
+.navbar-collapse, 
+.collapse {
+  background: #FFF;
+}
+
+.container-fluid > .navbar-collapse {
+  padding: 0 8px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: red;
+  background-color: inherit;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  color: red;
+  background-color: #080808;
 }
 
 #wrapper {

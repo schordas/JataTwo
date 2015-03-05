@@ -38,3 +38,7 @@ Template.jumbotronQuery.events
           console.log 'Error creating JSON file'
         return
     return false
+
+Template.jumbotronQuery.helpers
+  showExportButton: ->
+    return Session.get 'fileId'

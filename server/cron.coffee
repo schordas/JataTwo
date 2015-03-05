@@ -9,12 +9,12 @@ SyncedCron.add
     fs = Npm.require('fs')
     dirPath = '../../../../../tmp/'
     fs.readdir dirPath, (err, files) ->
-    files.forEach (file)->
-    		filePath = dirPath + file
-	    	fs.unlink filePath, (err) ->
-				if err
-					console.log 'Error deleting file during cron job. File: ' + file
-				return
-    return
+      files.forEach (file)->
+      		filePath = dirPath + file
+  	    	fs.unlink filePath, (err) ->
+    				if err
+    					console.log 'Error deleting file during cron job. File: ' + file
+  				return
+      return
 # Start croning
 SyncedCron.start()

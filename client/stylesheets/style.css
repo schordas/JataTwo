@@ -286,8 +286,11 @@ body {
     line-height: normal;
 }
 /*Data Table*/
+.table > tbody > tr > td {
+  padding: 4px;
+}
 .data-table-container {
-  height:400px;
+  height: 500px;
   overflow: auto;
 }
 .data-table {

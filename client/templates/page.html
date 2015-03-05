@@ -1,6 +1,9 @@
 <template name="page">
   <div id="page-wrapper">
     <div class="container-fluid">
+      {{#if morgan}}
+        {{> uploadDialog}}
+      {{/if}}
       {{> jumbotronQuery}}
       {{> table}}
       {{> barGraph}}

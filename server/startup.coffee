@@ -1,6 +1,6 @@
 #
 # Cron job that deletes temporary files from user exports
-#
+# 
 # SyncedCron.add
 #   name: 'Delete temporary query files'
 #   schedule: (parser) ->
@@ -18,6 +18,5 @@
 # 			  	return
 # 				return
 #     	return
-
 # # Start croning
 # SyncedCron.start()

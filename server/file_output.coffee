@@ -51,15 +51,6 @@ Meteor.methods
       if err
         console.log err
       return
-  filesExist: (fileId) ->
-    fs = Npm.require('fs')
-    fileName = 'query_csv_' + fileId + '.csv'
-    filePath = '../../../../../tmp/' + fileName
-    try
-      stat = fs.statSync(filePath)
-      return true
-    catch _error
-      return false
 
 #
 # Output file to client

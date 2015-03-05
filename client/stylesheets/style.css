@@ -148,6 +148,15 @@ body {
   font-weight: 100;
 }
 
+.exports {
+  width: 60px;
+  margin: 0 auto;
+}
+
+.export-link {
+  text-align: center;
+}
+
 @-webkit-keyframes fadeOut {
   0% {opacity: 0;}
   10% {opacity: 1;}

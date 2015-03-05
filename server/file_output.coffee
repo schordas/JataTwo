@@ -1,9 +1,15 @@
 Meteor.methods
   createJSON: (query, fileId) ->
+    # make sure folder exists
+    fs = Npm.require('fs')
     dirPath = '../../../../../tmp/'
+    fs.exists dirPath, (exists) ->
+      if !exists
+        fs.mkdirSync dirPath
+      return
+    #
     filePath = dirPath + 'query_json_' + fileId + '.json' 
     data = Data.find(query)
-    fs = Npm.require('fs')
     # print out each row
     outputString = '[\n'
     data.forEach (item) ->
@@ -25,10 +31,16 @@ Meteor.methods
       return
     return
   createCSV: (query, fileId) ->
+    # make sure folder exists
+    fs = Npm.require('fs')
     dirPath = '../../../../../tmp/'
+    fs.exists dirPath, (exists) ->
+      if !exists
+        fs.mkdirSync dirPath
+      return
+    #
     filePath = dirPath + 'query_csv_' + fileId + '.csv' 
     data = Data.find(query)
-    fs = Npm.require('fs')
     outputString = ''
     # print columns
     item = Data.findOne()

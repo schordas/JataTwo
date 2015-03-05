@@ -1,9 +1,19 @@
 Jata Data Visualizer
 ====================
 Run this command to parse your csv to json:
+
 `python parser.py filename.csv`
 
+*We no longer need to convert to JSON, we are uploading CSV. 
+
+
+
 Run this command to load the json into the data base:
+
+`mongoimport --db meteor --collection data --file data.csv --type csv --headerline -h localhost:3001`
+
+
+*Note, this command is now depricated for our purposes
 
 `mongoimport -h localhost:3001 --db meteor --collection data < SampleTable.json`
 

@@ -1,4 +1,4 @@
-Template.sidebarQuery.events
+Template.jumbotronQuery.events
   "submit form": (e, t) ->
     e.preventDefault()
     project = t.find("[name=project]")?.value

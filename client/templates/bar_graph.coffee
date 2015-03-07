@@ -1,6 +1,30 @@
-Template.barGraph.helpers
-	showBarGraph: ->
-    	return (Session.get 'project') or (Session.get 'taskNum') or (Session.get 'taskMan')
+# Template.barGraph.rendered = ->
+# 	@node = @find('#video-map')
+# 	return
+
+# Template.barGraph.destroyed = ->
+#   @drawTimeline.stop()
+#   return
+
+# if !self.drawTimeline
+#   self.drawTimeline = Meteor.autorun(->
+#     data = Data.find().fetch()
+#     self.captions = d3.select(self.node).select('.caption-spans').selectAll('rect').data(data, (sub) ->
+#       sub._id
+#     )
+#     drawTimeline()
+#     return
+#   )
+
+# drawTimeline = ->
+#   # Append new captions
+#   drawSubs self.captions.enter().append('rect')
+#   # Update changed captions
+#   drawSubs self.captions.transition().duration(400)
+#   # Remove captions
+#   self.captions.exit().transition().duration(400).style('opacity', 0).remove()
+#   return
+
 
 # // if(Meteor.isClient) {
 

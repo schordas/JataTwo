@@ -3,7 +3,7 @@
           <h1 class="page-header">
             Data Table
           </h1>
-          {{#if showTable}}
+          {{#if dataIsLoaded}}
             <div class = "table">
       			  <div id="table" class="table table-responsive data-table-container">
       			    {{> reactiveTable class="table table-bordered table-striped table-hover" settings=settings}}

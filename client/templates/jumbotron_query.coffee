@@ -15,9 +15,10 @@ Template.jumbotronQuery.events
       query = {"Task Number" : taskNum}
     else
       console.log("Empty Query")
-    Meteor.subscribe('data', query)
+    Meteor.subscribe('data', query, onReady: ->
+      dataIsLoaded.set(true) # Global var declared in global.coffee
+      )
     Session.set "query", query
-    #count = Data.find(query).count()
     #Still having latency issues
     Session.set "project", project
     Session.set "taskNum", taskNum
@@ -39,6 +40,3 @@ Template.jumbotronQuery.events
         return
     return false
 
-Template.jumbotronQuery.helpers
-  showExportButton: ->
-    return Session.get 'fileId'

@@ -5,13 +5,11 @@
         </h1>
         <ol class="breadcrumb">
           <li class="active">
-          	{{#if showBarGraph}}
-	            <svg class="bar_graph">
-	            	BAR GRAPH GOES HERE!
-	  			</svg>
-  			{{else}}
-  				Will populate on query.
-  			{{/if}}
+            {{#if dataIsLoaded}}
+              barGraph
+            {{else}}
+              Please make a query.
+            {{/if}}
           </li>
         </ol>
 	</div>

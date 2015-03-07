@@ -19,3 +19,4 @@ mizzao:bootboxjs
 iron:router
 momentjs:moment
 percolate:synced-cron
+reactive-var

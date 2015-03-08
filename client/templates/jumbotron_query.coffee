@@ -1,20 +1,56 @@
 Template.jumbotronQuery.events
   "submit form": (e, t) ->
+    dataIsLoaded.set(false)
     e.preventDefault()
     project = t.find("[name=project]")?.value
     taskNum = t.find("[name=taskNum]")?.value
-    taskMan = t.find("[name=taskMan]")?.value
+    fiscalYr = t.find("[name=fiscalYr]")?.value
+    periodNbr = t.find("[name=periodNbr]")?.value
     query = {}
-    projectFinal = ""
-    taskNumFinal = ""
-    if project && taskNum
-      query = {"Project Number" : project, "Task Number" : taskNum}
-    else if project && !taskNum
-      query = {"Project Number" : project}
-    else if !project && taskNum
-      query = {"Task Number" : taskNum}
-    else
-      console.log("Empty Query")
+    if project
+      query["Project Number"] = project
+    if taskNum
+      query["Task Number"] = taskNum
+    if fiscalYr
+      regexNbr = /(\d+)/g
+      regexHyphen = /-/
+      nums = fiscalYr.match(regexNbr)
+      if nums.length > 1
+        nums.sort()
+        if fiscalYr.match(regexHyphen) # it's a range
+          query["Fiscal Year"] = {$gte: Number(nums[0]), $lte: Number(nums[1])}
+      else if nums.length == 1
+        query["Fiscal Year"] = Number(nums[0])
+    if periodNbr
+      regexNbr = /(\d+)/g
+      regexHyphen = /-/
+      nums = periodNbr.match(regexNbr)
+      if nums.length > 1
+        nums.sort()
+        if periodNbr.match(regexHyphen) # it's a range
+          query["Period Nbr"] = {$gte: Number(nums[0]), $lte: Number(nums[1])} 
+      else if nums.length == 1
+        query["Period Nbr"] = Number(nums[0])
+      
+
+    # if project && taskNum && fiscalYr && periodNbr
+    #   query = {
+    #     "Project Number" : project, 
+    #     "Task Number" : taskNum, 
+    #     "Fiscal Year" : {$gt: 2010, $lt: 2014}, 
+    #     "Period Nbr" : {$gte:1, $lte:3}
+    #   }
+    # else if project && !taskNum 
+    #   query = {
+    #     "Project Number" : project
+    #   }
+    # else if !project && taskNum
+    #   query = {
+    #     "Task Number" : taskNum
+    #   }
+    # else
+    #   console.log("Empty Query")
+    console.log query
     Meteor.subscribe('data', query, onReady: ->
       dataIsLoaded.set(true) # Global var declared in global.coffee
       )
@@ -22,7 +58,6 @@ Template.jumbotronQuery.events
     #Still having latency issues
     Session.set "project", project
     Session.set "taskNum", taskNum
-    Session.set "taskMan", taskMan
     #
     # Create the export files on query
     #

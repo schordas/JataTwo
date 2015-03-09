@@ -31,26 +31,6 @@ Template.jumbotronQuery.events
           query["Period Nbr"] = {$gte: Number(nums[0]), $lte: Number(nums[1])} 
       else if nums.length == 1
         query["Period Nbr"] = Number(nums[0])
-      
-
-    # if project && taskNum && fiscalYr && periodNbr
-    #   query = {
-    #     "Project Number" : project, 
-    #     "Task Number" : taskNum, 
-    #     "Fiscal Year" : {$gt: 2010, $lt: 2014}, 
-    #     "Period Nbr" : {$gte:1, $lte:3}
-    #   }
-    # else if project && !taskNum 
-    #   query = {
-    #     "Project Number" : project
-    #   }
-    # else if !project && taskNum
-    #   query = {
-    #     "Task Number" : taskNum
-    #   }
-    # else
-    #   console.log("Empty Query")
-    console.log query
     Meteor.subscribe('data', query, onReady: ->
       dataIsLoaded.set(true) # Global var declared in global.coffee
       )

@@ -35,7 +35,7 @@ Template.jumbotronQuery.events
       dataIsLoaded.set(true) # Global var declared in global.coffee
       )
     Session.set "query", query
-    #Still having latency issues
+    # Still having latency issues
     Session.set "project", project
     Session.set "taskNum", taskNum
     #

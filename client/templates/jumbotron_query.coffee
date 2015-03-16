@@ -23,7 +23,7 @@ putFieldIntoQuery = (field, fieldName, query)->
       commaSeparatedFieldIntoQuery(field, fieldName, query)
     else if isRanged(field)
       rangedFieldIntoQuery(field, fieldName, query)
-    else 
+    else # is normal, single field
       if !isNaN(field)
         field = Number(field)
       query[fieldName] = field

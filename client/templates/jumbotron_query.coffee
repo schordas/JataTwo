@@ -87,4 +87,10 @@ createExportFiles = (query)->
   return
 
 
+# 
+Meteor.Spinner.options = {
+  top: '220px',
+  length: 30,
+  width: 6
+}
 

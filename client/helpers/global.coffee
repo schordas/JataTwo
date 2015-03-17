@@ -31,3 +31,9 @@ Template.registerHelper 'dataIsLoaded', ->
 	"MTD Raw Cost Plan",
 	"MTD Raw Oblg Plan"
 ]
+
+# Cheap fix to get rid of Iron Router splash on homepage. TODO remove later on...
+Router.route '/', ->
+	console.log 'At home page...'
+	return
+

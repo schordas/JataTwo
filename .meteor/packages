@@ -20,3 +20,4 @@ iron:router
 momentjs:moment
 percolate:synced-cron
 reactive-var
+sacha:spin

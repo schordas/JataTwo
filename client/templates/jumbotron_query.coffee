@@ -1,6 +1,13 @@
+waitingForData = new ReactiveVar(false)
+
+Template.jumbotronQuery.helpers
+  waitingForData: ->
+    waitingForData.get()
+
 Template.jumbotronQuery.events
   "submit form": (e, t) ->
     dataIsLoaded.set(false)
+    waitingForData.set(true)
     e.preventDefault()
     #
     query = {}
@@ -13,6 +20,7 @@ Template.jumbotronQuery.events
     Session.set "query", query
     Meteor.subscribe('data', query, onReady: ->
       dataIsLoaded.set(true) # Global var declared in global.coffee
+      waitingForData.set(false)
       )
     createExportFiles(query)
     return false

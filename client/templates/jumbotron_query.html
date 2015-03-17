@@ -27,5 +27,8 @@
         {{#if dataIsLoaded}}
           {{> exportButton}}
         {{/if}}
+        {{#if waitingForData}}
+          {{> spinner}}
+        {{/if}}
   </div>
 </template>

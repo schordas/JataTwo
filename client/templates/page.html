@@ -1,9 +1,11 @@
 <template name="page">
   <div id="page-wrapper">
     <div class="container-fluid">
-      {{> table}}
-      {{> barChart}}
-      {{> pieChart}}
+    	{{#if dataIsLoaded}}
+      		{{> table}}
+      		{{> barChart}}
+      		{{> pieChart}}
+      	{{/if}}
     </div>
   </div>
 </template>

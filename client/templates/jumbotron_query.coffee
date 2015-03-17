@@ -4,10 +4,10 @@ Template.jumbotronQuery.events
     e.preventDefault()
     #
     query = {}
-    putFieldIntoQuery( t.find("[name=project]")?.value, "Project Number", query)
-    putFieldIntoQuery( t.find("[name=taskNum]")?.value, "Task Number", query)
-    putFieldIntoQuery( t.find("[name=fiscalYr]")?.value, "Fiscal Year", query)
-    putFieldIntoQuery( t.find("[name=periodNbr]")?.value, "Period Nbr", query)
+    putFieldIntoQuery( t.find("[name=project]")?.value, "Project Number", query )
+    putFieldIntoQuery( t.find("[name=taskNum]")?.value, "Task Number", query )
+    putFieldIntoQuery( t.find("[name=fiscalYr]")?.value, "Fiscal Year", query )
+    putFieldIntoQuery( t.find("[name=periodNbr]")?.value, "Period Nbr", query )
     #
     console.log query
     Session.set "query", query
@@ -17,28 +17,28 @@ Template.jumbotronQuery.events
     createExportFiles(query)
     return false
 
-putFieldIntoQuery = (field, fieldName, query)->
-  if field
-    if isCommaSeparated(field)
-      commaSeparatedFieldIntoQuery(field, fieldName, query)
-    else if isRanged(field)
-      rangedFieldIntoQuery(field, fieldName, query)
-    else # is normal, single field
-      if !isNaN(field)
-        field = Number(field)
-      query[fieldName] = field
+putFieldIntoQuery = (value, fieldName, query)->
+  if value
+    if isCommaSeparated(value)
+      commaSeparatedFieldIntoQuery(value, fieldName, query)
+    else if isRanged(value)
+      rangedFieldIntoQuery(value, fieldName, query)
+    else # is normal, single value
+      if !isNaN(value)
+        value = Number(value)
+      query[fieldName] = value
   return
 
-isCommaSeparated = (field)->
-  field.split(',').length > 1
+# Comma Separated 
+isCommaSeparated = (value)->
+  value.split(',').length > 1
 
-commaSeparatedFieldIntoQuery = (field, fieldName, query)->
-  nums = field.match(/(\d+)/g)
+commaSeparatedFieldIntoQuery = (value, fieldName, query)->
+  nums = value.match(/(\d+)/g)
   if nums
     items = nums
-    console.log 'number'
   else
-    items = field.split(',')
+    items = value.split(',')
   if items.length > 0
     itemsArray = []
     i = 0
@@ -51,16 +51,18 @@ commaSeparatedFieldIntoQuery = (field, fieldName, query)->
   query[fieldName] = { $in: itemsArray } 
   return
 
-isRanged = (field)->
-  field.split('-').length == 2
+# Range
+isRanged = (value)->
+  value.split('-').length == 2
 
-rangedFieldIntoQuery = (field, fieldName, query)->
-  nums = field.split('-')
+rangedFieldIntoQuery = (value, fieldName, query)->
+  nums = value.split('-')
   if nums.length == 2
     nums.sort()
     query[fieldName] = { $gte: Number(nums[0]), $lte: Number(nums[1]) } 
   return
 
+# 
 createExportFiles = (query)->
   fileId = moment().format()
   Session.set "fileId", fileId

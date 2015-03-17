@@ -6,6 +6,8 @@
         <ol class="breadcrumb">
           <li class="active" id="bar-chart">
             {{#if dataIsLoaded}}
+              {{> barChartXAxis}}
+              {{> barChartYAxis}}
             {{else}}
               Please make a query.
             {{/if}}

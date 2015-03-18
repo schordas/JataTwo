@@ -1,6 +1,9 @@
 Template.barChart.rendered = ->
   Meteor.autorun ->
     if dataIsLoaded.get()
+      if d3.select('#bar-chart-svg')[0][0] != null
+        parent = document.getElementById('bar-chart')
+        parent.removeChild(document.getElementById('bar-chart-svg'))
       valueLabelWidth = 60
       # space reserved for value labels (right)
       barHeight = 20
@@ -22,7 +25,7 @@ Template.barChart.rendered = ->
         { 'value': d3.sum(d, (e) ->
           parseFloat e['MTD Burdened Costs']
         ) }
-      ).entries(Data.find().fetch())
+      ).entries(Data.find(Session.get 'query').fetch())
       # accessor functions 
 
       barLabel = (d) ->
@@ -54,8 +57,9 @@ Template.barChart.rendered = ->
         0
         maxBarWidth
       ])
+
       # svg container element
-      chart = d3.select('#bar-chart').append('svg').attr('width', (maxBarWidth + barLabelWidth + valueLabelWidth)).attr('height', gridLabelHeight + gridChartOffset + sortedData.length * barHeight)
+      chart = d3.select('#bar-chart').append('svg').attr('id','bar-chart-svg').attr('width', (maxBarWidth + barLabelWidth + valueLabelWidth)).attr('height', gridLabelHeight + gridChartOffset + sortedData.length * barHeight)
       # grid line labels
       gridContainer = chart.append('g').attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')')
       gridContainer.selectAll('text').data(x.ticks(10)).enter().append('text').attr('x', x).attr('dy', -3).attr('text-anchor', 'middle').text String

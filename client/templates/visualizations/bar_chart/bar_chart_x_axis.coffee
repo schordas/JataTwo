@@ -1,5 +1,5 @@
 Template.barChartXAxis.helpers
-	xAxisOptions: ->
+	options: ->
 		[
 			{
 				label: "Year"

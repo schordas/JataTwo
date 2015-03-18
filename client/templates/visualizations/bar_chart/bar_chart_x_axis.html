@@ -1,13 +1,7 @@
 <template name="barChartXAxis">
-  	<div class="controls dropdown">
-    	<a id="dLabel" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-	      	X-Axis
-	      	<span class="caret"></span>
-    	</a>
-    	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    		{{#each xAxisOptions}}
-	      		<li><a class="bar-chart-control-button" href="">{{label}}</a></li>
-    		{{/each}}
-    	</ul>
-  	</div>
+  <select class="selectpicker control" id="bar-chart-x-axis-control" name="bar-chart-x-axis" data-style="btn-primary" title="Select One">
+    {{#each options}}
+      <option>{{label}}</option>
+    {{/each}}
+  </select>
 </template>

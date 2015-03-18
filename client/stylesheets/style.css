@@ -1,21 +1,3 @@
-.bar_graph div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
-}
-.bar_graph rect {
-  fill: steelblue;
-}
-
-.bar_graph text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
-}
-
 .grid-block, .main, .post, .comments li, .comment-form {
   /*background: #fff;*/
   -webkit-border-radius: 3px;
@@ -383,3 +365,11 @@ a:focus {
 }
 
 }
+
+/*
+* Graphs
+*/
+.graph-controls {
+  text-align: center;
+}
+/* Bar Chart */

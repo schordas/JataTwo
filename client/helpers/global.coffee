@@ -34,6 +34,5 @@ Template.registerHelper 'dataIsLoaded', ->
 
 # Cheap fix to get rid of Iron Router splash on homepage. TODO remove later on...
 Router.route '/', ->
-	console.log 'At home page...'
 	return
 

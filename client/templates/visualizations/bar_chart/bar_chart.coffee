@@ -1,56 +1,82 @@
 Template.barChart.rendered = ->
   Meteor.autorun ->
     if dataIsLoaded.get()
-      queryData = Data.find().fetch()
-      d3Data = []      
-      widthSVG = 980
-      heightSVG = 400
-      widthBar = 15
-      offsetBar = 3
+      valueLabelWidth = 60
+      # space reserved for value labels (right)
+      barHeight = 20
+      # height of one bar
+      barLabelWidth = 100
+      # space reserved for bar labels
+      barLabelPadding = 5
+      # padding between bar and bar labels (left)
+      gridLabelHeight = 18
+      # space reserved for gridline labels
+      gridChartOffset = 3
+      # space between start of grid and first bar
+      maxBarWidth = 900
+      # width of the bar with the max value
+      # data aggregation
+      aggregatedData = d3.nest().key((d) ->
+        d['Period Nbr']
+      ).rollup((d) ->
+        { 'value': d3.sum(d, (e) ->
+          parseFloat e['MTD Burdened Costs']
+        ) }
+      ).entries(Data.find().fetch())
+      # accessor functions 
 
-      # initialize the array
-      numTerms = 12 # this will need to be dynamic based on what the x-axis is chosen to be
-      i = 0
-      while i < numTerms
-        d3Data[i] = 0 # init to zero
-        i++
+      barLabel = (d) ->
+        d.key
 
-      # sum the data
-      queryData.forEach (i)->
-        d3Data[i['Period Nbr']] += i['MTD Burdened Costs']
-        return
+      barValue = (d) ->
+        d.values.value
 
-      # create ranges
-      yScale = d3.scale.linear()
-        .domain([0, d3.max(d3Data)])
-        .range([0, heightSVG])
+      # sorting
+      sortedData = aggregatedData.sort((a, b) ->
+        d3.ascending barLabel(a), barLabel(b)
+      )
+      # scales
+      yScale = d3.scale.ordinal().domain(d3.range(0, sortedData.length)).rangeBands([
+        0
+        sortedData.length * barHeight
+      ])
 
-      xScale = d3.scale.ordinal()
-        .domain(d3.range(0, numTerms))
-        .rangeBands([0, widthSVG])
-      
-      # create bars
-      d3.select('#bar-chart'). append('svg')
-        .attr('width', widthSVG)
-        .attr('height', heightSVG)
-        .selectAll('rect').data(d3Data)
-        .enter().append('rect')
-          .style('fill', (d,i) ->
-            if i % 2 == 0 # not working... I'm trying to alternate colors
-              '#333'
-            '#000'
-            )
-          .attr('width', xScale.rangeBand() )
-          .attr('height', (d)->
-            yScale(d)
-            )
-          .attr('x', (d, i) ->
-            xScale(i)
-            )
-          .attr('y', (d) ->
-            heightSVG - yScale(d)
-            )
+      y = (d, i) ->
+        yScale i
+
+      yText = (d, i) ->
+        y(d, i) + yScale.rangeBand() / 2
+
+      x = d3.scale.linear().domain([
+        0
+        d3.max(sortedData, barValue)
+      ]).range([
+        0
+        maxBarWidth
+      ])
+      # svg container element
+      chart = d3.select('#bar-chart').append('svg').attr('width', (maxBarWidth + barLabelWidth + valueLabelWidth)).attr('height', gridLabelHeight + gridChartOffset + sortedData.length * barHeight)
+      # grid line labels
+      gridContainer = chart.append('g').attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')')
+      gridContainer.selectAll('text').data(x.ticks(10)).enter().append('text').attr('x', x).attr('dy', -3).attr('text-anchor', 'middle').text String
+      # vertical grid lines
+      gridContainer.selectAll('line').data(x.ticks(10)).enter().append('line').attr('x1', x).attr('x2', x).attr('y1', 0).attr('y2', yScale.rangeExtent()[1] + gridChartOffset).style 'stroke', '#ccc'
+      # bar labels
+      labelsContainer = chart.append('g').attr('transform', 'translate(' + (barLabelWidth - barLabelPadding) + ',' + (gridLabelHeight + gridChartOffset) + ')')
+      labelsContainer.selectAll('text').data(sortedData).enter().append('text').attr('y', yText).attr('stroke', 'none').attr('fill', 'black').attr('dy', '.35em').attr('text-anchor', 'end').text barLabel
+      # bars
+      barsContainer = chart.append('g').attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')')
+      barsContainer.selectAll('rect').data(sortedData).enter().append('rect').attr('y', y).attr('height', yScale.rangeBand()).attr('width', (d) ->
+        x barValue(d)
+      ).attr('stroke', 'white').attr 'fill', 'steelblue'
+      # bar value labels
+      barsContainer.selectAll('text').data(sortedData).enter().append('text').attr('x', (d) ->
+        x barValue(d)
+      ).attr('y', yText).attr('dx', 3).attr('dy', '.35em').attr('text-anchor', 'start').attr('fill', 'black').attr('stroke', 'none').text (d) ->
+        d3.round barValue(d), 2
+      # start line
+      barsContainer.append('line').attr('y1', -gridChartOffset).attr('y2', yScale.rangeExtent()[1] + gridChartOffset).style 'stroke', '#000'
     # end dataIsLoaded
     return
-  # end autorun POOP
+  # end autorun
   return 

@@ -5,7 +5,8 @@ Template.jumbotronQuery.helpers
     waitingForData.get()
 
 Template.jumbotronQuery.events
-  "submit form": (e, t) ->
+  "submit form": (e, t) -> 
+    #
     dataIsLoaded.set(false)
     waitingForData.set(true)
     e.preventDefault()

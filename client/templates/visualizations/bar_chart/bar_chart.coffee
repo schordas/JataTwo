@@ -1,3 +1,9 @@
+#
+# Global vars
+#
+@barChartXAxis = new ReactiveVar('Fiscal Year')
+@barChartYAxis = new ReactiveVar('MTD Burdened Costs')
+
 Template.barChart.rendered = ->
   Meteor.autorun ->
     if dataIsLoaded.get()
@@ -20,10 +26,10 @@ Template.barChart.rendered = ->
       # width of the bar with the max value
       # data aggregation
       aggregatedData = d3.nest().key((d) ->
-        d['Period Nbr']
+        d[barChartXAxis.get()]
       ).rollup((d) ->
         { 'value': d3.sum(d, (e) ->
-          parseFloat e['MTD Burdened Costs']
+          parseFloat e[barChartYAxis.get()]
         ) }
       ).entries(Data.find(Session.get 'query').fetch())
       # accessor functions 

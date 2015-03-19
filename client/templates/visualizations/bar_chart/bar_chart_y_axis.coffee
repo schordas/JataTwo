@@ -1,7 +1,9 @@
 Template.barChartYAxis.helpers
 	options: ->
 		return [
+			{label: "MTD Burdened Costs"},
 			{label: "MTD Actual FTE"},
+			{label: "MTD Hours"},
 			{label: "MTD Burdened Obligations"},
 			{label: "MTD Obligations"},
 			{label: "MTD EAC BurdenedPlan"},

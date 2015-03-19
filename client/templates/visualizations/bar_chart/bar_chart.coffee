@@ -7,9 +7,13 @@
 Template.barChart.rendered = ->
   Meteor.autorun ->
     if dataIsLoaded.get()
+      # remove bar chart, if exists
       if d3.select('#bar-chart-svg')[0][0] != null
         parent = document.getElementById('bar-chart')
         parent.removeChild(document.getElementById('bar-chart-svg'))
+      #
+      # Local Vars
+      #
       valueLabelWidth = 60
       # space reserved for value labels (right)
       barHeight = 20
@@ -25,7 +29,9 @@ Template.barChart.rendered = ->
       maxBarWidth = 900
       # width of the bar with the max value
       color = '#ce1126'
+      #
       # data aggregation
+      #
       aggregatedData = d3.nest().key((d) ->
         d[barChartXAxis.get()]
       ).rollup((d) ->
@@ -33,10 +39,14 @@ Template.barChart.rendered = ->
           parseFloat e[barChartYAxis.get()]
         ) }
       ).entries(Data.find(Session.get 'query').fetch())
+      #
       # accessor functions 
-
+      #
       barLabel = (d) ->
-        d.key
+        if isNaN d.key
+          d.key
+        else 
+          Number(d.key)
 
       barValue = (d) ->
         d.values.value
@@ -65,6 +75,9 @@ Template.barChart.rendered = ->
         maxBarWidth
       ])
 
+      #
+      # Create bar chart
+      #
       # svg container element
       chart = d3.select('#bar-chart').append('svg').attr('id','bar-chart-svg').attr('width', (maxBarWidth + barLabelWidth + valueLabelWidth)).attr('height', gridLabelHeight + gridChartOffset + sortedData.length * barHeight)
       # axes labels

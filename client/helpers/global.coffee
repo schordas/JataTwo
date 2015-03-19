@@ -7,6 +7,38 @@
 Template.registerHelper 'dataIsLoaded', ->
 	return dataIsLoaded.get()
 
+# Defines the possible domains for graphs
+Template.registerHelper 'domain', ->
+	return [
+			{label: "Fiscal Year"},
+			{label: "Period Nbr"},
+			{label: "Project Number"},
+			{label: "Expenditure Type"},
+			{label: "Task Cognizant Org"}
+		] 
+
+# Defines the possible range for graphs
+Template.registerHelper 'range', ->
+	return [
+			{label: "MTD Burdened Costs"},
+			{label: "MTD Actual FTE"},
+			{label: "MTD Hours"},
+			{label: "MTD Burdened Obligations"},
+			{label: "MTD Obligations"},
+			{label: "MTD EAC BurdenedPlan"},
+			{label: "MTD EAC Raw Plan"},
+			{label: "MTD EOC Burdened Plan"},
+			{label: "MTD EOC Raw Plan"},
+			{label: "MTD EAC FTE Plan"},
+			{label: "MTD EAC Hours Plan"},
+			{label: "MTD Burdened Cost Plan"},
+			{label: "MTD Burdened Oblg Plan"},
+			{label: "MTD FTE Plan"},
+			{label: "MTD Hours Plan"},
+			{label: "MTD Raw Cost Plan"},
+			{label: "MTD Raw Oblg Plan"}
+		]
+
 #
 # 
 #

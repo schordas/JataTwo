@@ -3,5 +3,5 @@ Template.pieChartControls.events
   	e.preventDefault()
   	#
   	pieChartKey.set( t.find("[name=pie-chart-key]")?.value )
-  	pieChartValue.set( t.find("[name=bar-chart-value]")?.value )
+  	pieChartValue.set( t.find("[name=pie-chart-value]")?.value )
   	return false

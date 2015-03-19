@@ -40,7 +40,7 @@ Template.registerHelper 'range', ->
 		]
 
 #
-# 
+# All data fields in array format
 #
 @fields = [
 	"Fiscal Year",

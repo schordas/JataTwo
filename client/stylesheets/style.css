@@ -373,3 +373,6 @@ a:focus {
   text-align: center;
 }
 /* Bar Chart */
+#bar-chart svg text {
+  font-size: 8px;
+}

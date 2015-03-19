@@ -1,7 +1,7 @@
 <template name="barChartXAxis">
-  <select class="selectpicker control" id="bar-chart-x-axis-control" name="bar-chart-x-axis" data-style="btn-primary" title="Select One">
+  <select class="selectpicker control" id="bar-chart-x-axis-control" name="bar-chart-x-axis" data-style="btn-primary" title="Select X-Axis">
     {{#each options}}
-      <option>{{label}}</option>
+      <option selected={{isSelected label}}>{{label}}</option>
     {{/each}}
   </select>
 </template>

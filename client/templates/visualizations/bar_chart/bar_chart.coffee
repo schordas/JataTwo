@@ -14,7 +14,7 @@ Template.barChart.rendered = ->
       # space reserved for value labels (right)
       barHeight = 20
       # height of one bar
-      barLabelWidth = 100
+      barLabelWidth = 170
       # space reserved for bar labels
       barLabelPadding = 5
       # padding between bar and bar labels (left)
@@ -24,6 +24,7 @@ Template.barChart.rendered = ->
       # space between start of grid and first bar
       maxBarWidth = 900
       # width of the bar with the max value
+      color = '#ce1126'
       # data aggregation
       aggregatedData = d3.nest().key((d) ->
         d[barChartXAxis.get()]
@@ -66,6 +67,9 @@ Template.barChart.rendered = ->
 
       # svg container element
       chart = d3.select('#bar-chart').append('svg').attr('id','bar-chart-svg').attr('width', (maxBarWidth + barLabelWidth + valueLabelWidth)).attr('height', gridLabelHeight + gridChartOffset + sortedData.length * barHeight)
+      # axes labels
+      xAxisLabel = chart.append('text').attr('x',10).attr('y',10).text barChartXAxis.get()
+      yAxisLabel = chart.append('text').attr('x',maxBarWidth/2).attr('y',10).text barChartYAxis. get()
       # grid line labels
       gridContainer = chart.append('g').attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')')
       gridContainer.selectAll('text').data(x.ticks(10)).enter().append('text').attr('x', x).attr('dy', -3).attr('text-anchor', 'middle').text String
@@ -78,7 +82,7 @@ Template.barChart.rendered = ->
       barsContainer = chart.append('g').attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')')
       barsContainer.selectAll('rect').data(sortedData).enter().append('rect').attr('y', y).attr('height', yScale.rangeBand()).attr('width', (d) ->
         x barValue(d)
-      ).attr('stroke', 'white').attr 'fill', 'steelblue'
+      ).attr('stroke', 'white').attr 'fill', color
       # bar value labels
       barsContainer.selectAll('text').data(sortedData).enter().append('text').attr('x', (d) ->
         x barValue(d)

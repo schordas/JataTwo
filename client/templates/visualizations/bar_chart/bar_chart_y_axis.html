@@ -1,7 +1,7 @@
 <template name="barChartYAxis">
-  <select class="selectpicker control" id="bar-chart-y-axis-control" name="bar-chart-y-axis" data-style="btn-primary" title="Select One">
+  <select class="selectpicker control" id="bar-chart-y-axis-control" name="bar-chart-y-axis" data-style="btn-primary" title="Select Y-Axis">
     {{#each options}}
-      <option>{{label}}</option>
+      <option selected={{isSelected label}}>{{label}}</option>
     {{/each}}
   </select>
 </template>

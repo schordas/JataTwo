@@ -19,3 +19,5 @@ Template.barChartYAxis.helpers
 			{label: "MTD Raw Cost Plan"},
 			{label: "MTD Raw Oblg Plan"}
 			]
+	isSelected: (option)->
+		if (barChartYAxis.get() == option) then true else false

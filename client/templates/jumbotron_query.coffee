@@ -28,7 +28,9 @@ Template.jumbotronQuery.events
 
 putFieldIntoQuery = (value, fieldName, query)->
   if value
-    if isCommaSeparated(value)
+    if isRegex(value)
+      regexFieldIntoQuery(value, fieldName, query)
+    else if isCommaSeparated(value)
       commaSeparatedFieldIntoQuery(value, fieldName, query)
     else if isRanged(value)
       rangedFieldIntoQuery(value, fieldName, query)
@@ -38,22 +40,32 @@ putFieldIntoQuery = (value, fieldName, query)->
       query[fieldName] = value
   return
 
+# Regex - TODO. Not sure how to determine if regex yet...
+isRegex = (value)->
+  # try 
+  #   new RegExp(value, "i")
+  #   return true
+  # catch err
+  #   return false
+  return false
+    
+regexFieldIntoQuery = (value, fieldName, query)->
+  query[fieldName] = { $regex: value }
+  return
+
 # Comma Separated 
 isCommaSeparated = (value)->
   value.split(',').length > 1
 
 commaSeparatedFieldIntoQuery = (value, fieldName, query)->
-  nums = value.match(/(\d+)/g)
-  if nums
-    items = nums
-  else
-    items = value.split(',')
+  items = value.split(',')
   if items.length > 0
     itemsArray = []
     i = 0
     while i < items.length
+      console.log items[i]
       item = items[i].trim()
-      if nums
+      if !isNaN item
         item = Number(item)
       itemsArray.push item
       ++i

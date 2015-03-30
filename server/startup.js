@@ -4,7 +4,6 @@ Meteor.startup(function() {
 	*/
 	DataHierarchy.remove({});
 	if ( DataHierarchy.find().count() == 0 ) {
-		console.log("Trying to open the file...");
 		var filePath = "../../../../../data/data_hierarchy.csv";
 		var fs = Npm.require('fs');
 		fs.readFile(filePath, 'utf8', Meteor.bindEnvironment(function(err, data) {

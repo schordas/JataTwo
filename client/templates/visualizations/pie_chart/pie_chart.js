@@ -12,7 +12,7 @@ Template.pieChart.rendered = function () {
 };
 
 function drawPieChart() {
-	// Data 
+	// Data
 	var data = Data.find(Session.get('query')).fetch();
 	var dataArray = [];
 	for (var d in data) {
@@ -39,9 +39,9 @@ function drawPieChart() {
 	var pieHeight = pieWidth;
 	$('#myPie').css('min-height', pieHeight);
 
-	pie = new d3pie("myPie", 
+	pie = new d3pie("myPie",
 
-		{ 
+		{
 			header: {
 				title: {
 					text:    "",
@@ -86,13 +86,13 @@ function drawPieChart() {
 			},
 			labels: {
 				outer: {
-					format: "label",
+					format: "label-percentage2",
 					hideWhenLessThanPercentage: null,
 					pieDistance: 30
 				},
 				inner: {
 					format: "percentage",
-					hideWhenLessThanPercentage: null
+					hideWhenLessThanPercentage: 3
 				},
 				mainLabel: {
 					color: "#333333",
@@ -100,10 +100,10 @@ function drawPieChart() {
 					fontSize: 10
 				},
 				percentage: {
-					color: "#dddddd",
+					color: "#333333",
 					font: "arial",
 					fontSize: 10,
-					decimalPlaces: 0
+					decimalPlaces: 3
 				},
 				value: {
 					color: "#cccc44",

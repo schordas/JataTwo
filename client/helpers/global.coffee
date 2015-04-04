@@ -38,7 +38,21 @@ Template.registerHelper 'range', ->
 			{label: "MTD Raw Cost Plan"},
 			{label: "MTD Raw Oblg Plan"}
 		]
-
+Template.registerHelper 'drillDownValues', ->
+    return [
+      	{
+        	label: 'Level 1',
+        	value: 'level1'
+      	}, 
+      	{
+        	label: 'Level 2',
+        	value: 'level2'
+      	}, 
+      	{
+        	label: 'Level 3',
+        	value: 'level3'
+      	}
+    	]
 #
 # All data fields in array format
 #

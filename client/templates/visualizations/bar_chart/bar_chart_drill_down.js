@@ -1,20 +1,4 @@
 Template.barChartDrillDown.helpers({
-  drillDown: function() {
-    return [
-      {
-        label: 'Level 1',
-        value: 'level1'
-      }, 
-      {
-        label: 'Level 2',
-        value: 'level2'
-      }, 
-      {
-        label: 'Level 3',
-        value: 'level3'
-      }
-    ];
-  },
   isSelected: function(option) {
     if (barChartDrillDown.get() === option) {
       return true;

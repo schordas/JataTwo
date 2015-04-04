@@ -1,8 +1,8 @@
 <template name="barChartDrillDown">
-  <select class="selectpicker control" id="bar-chart-drill-down" name="bar-chart-drill-down" data-style="btn-primary" title="Select Drill Down">
-  	{{drillDown}}
-    {{#each drillDown}}
-      <option selected={{isSelected value}} value={{value}}>{{label}}</option>
-    {{/each}}
-  </select>
+	<span>Drill Down:</span>
+  	<select class="selectpicker control" id="bar-chart-drill-down" name="bar-chart-drill-down" data-style="btn-primary" title="Select Drill Down">
+    	{{#each drillDownValues}}
+      		<option selected={{isSelected value}} value={{value}}>{{label}}</option>
+    	{{/each}}
+  	</select>
 </template>

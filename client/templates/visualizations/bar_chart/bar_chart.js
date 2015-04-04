@@ -1,4 +1,4 @@
-barChartXAxis = new ReactiveVar('Fiscal Year');
+barChartXAxis = new ReactiveVar('Period Nbr');
 barChartYAxis = new ReactiveVar('MTD Burdened Costs');
 barChartDrillDown = new ReactiveVar('level2');
 
@@ -10,6 +10,7 @@ Template.barChart.rendered = function() {
         barChartContainer = document.getElementById('bar-chart');
         barChartContainer.removeChild(document.getElementById('bar-chart-svg'));
       }
+      console.log("rerendering");
       renderBarChart();
     }
   });
@@ -142,8 +143,4 @@ function renderBarChart() {
       .attr("dy", ".35em")
       .style("text-anchor", "end")
       .text(function(d) { return d; });
-
-
-
-
 };

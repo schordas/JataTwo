@@ -1,6 +1,6 @@
 barChartXAxis = new ReactiveVar('Fiscal Year');
-
 barChartYAxis = new ReactiveVar('MTD Burdened Costs');
+barChartDrillDown = new ReactiveVar('level2');
 
 Template.barChart.rendered = function() {
   Meteor.autorun(function() {

@@ -20,8 +20,8 @@ Meteor.startup(function() {
 					DataHierarchy.insert(
 						{
 							_id : fields[2],
-							grandparent : fields[1],
-							parent : fields[0]
+							level2 : fields[1],
+							level1 : fields[0]
 
 						});
             	}

@@ -1,6 +1,7 @@
 Meteor.startup(function() {
 	/*
 	*	Define DataHierarchy - used for data drilldown
+	* 	Uses the file: data/data_hierarchy.csv
 	*/
 	DataHierarchy.remove({});
 	if ( DataHierarchy.find().count() == 0 ) {

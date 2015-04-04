@@ -22,7 +22,6 @@ Template.barChartDrillDown.helpers({
 
 Template.barChartDrillDown.events({
     'change select': function(e,t) {
-    	console.log(t.find("[name=bar-chart-drill-down]"));
-    	// barChartDrillDown.set( t.find("[name=bar-chart-x-axis]")?.value );
+    	barChartDrillDown.set( t.find("[name=bar-chart-x-axis]").value );
     }
  });

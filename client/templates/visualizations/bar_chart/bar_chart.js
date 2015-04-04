@@ -10,9 +10,7 @@ Template.barChart.rendered = function() {
         barChartContainer = document.getElementById('bar-chart');
         barChartContainer.removeChild(document.getElementById('bar-chart-svg'));
       }
-      var d = new Date();
       renderBarChart();
-      var end = d.getMilliseconds();
     }
   });
 };
@@ -43,10 +41,10 @@ function renderBarChart() {
     //var expType = DataHierarchy.findOne({_id : d["Expenditure Type"]});
     var expType = dataHierarchy[d["Expenditure Type"]];
     if (expType != undefined) {
-      if (data[index][expType["parent"]] == undefined) {
-        data[index][expType["parent"]] = 0;
+      if (data[index][expType[barChartDrillDown.get()]] == undefined) {
+        data[index][expType[barChartDrillDown.get()]] = 0;
       }
-      data[index][expType["parent"]] += d[barChartYAxis.get()];
+      data[index][expType[barChartDrillDown.get()]] += d[barChartYAxis.get()];
     }
   });
   

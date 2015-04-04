@@ -84,12 +84,21 @@ function renderBarChart() {
       .orient("left")
       .tickFormat(d3.format(".2s"));
 
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<strong>" + d.name + ":</strong> <span style='color:red'>" + d.value + "</span>";
+    })
+
   var svg = d3.select("#bar-chart").append("svg")
       .attr("id", "bar-chart-svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.call(tip);
 
   // Draw Bar Chart
   color.domain(d3.keys(data[0]).filter(function(key) {
@@ -99,9 +108,9 @@ function renderBarChart() {
     var y0 = 0;
     d.levelCat = color.domain().map(function(name) {
       if (d[name] == undefined) {
-        return {name: name, y0: 0, y1: 0};
+        return {name: name, y0: 0, y1: 0, value: 0};
       }
-      return {name: name, y0: y0, y1: y0 += +d[name]};
+      return {name: name, y0: y0, y1: y0 += +d[name], value: d[name]};
     });
     d.total = d.levelCat[d.levelCat.length - 1].y1;
   });
@@ -139,7 +148,9 @@ function renderBarChart() {
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.y1); })
       .attr("height", function(d) { return y(d.y0) - y(d.y1); })
-      .style("fill", function(d) { return color(d.name); });
+      .style("fill", function(d) { return color(d.name); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
 
   var legend = svg.selectAll(".legend")
       .data(color.domain().slice().reverse())

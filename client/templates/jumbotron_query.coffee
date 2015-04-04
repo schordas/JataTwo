@@ -5,7 +5,7 @@ Template.jumbotronQuery.helpers
     waitingForData.get()
 
 Template.jumbotronQuery.events
-  "submit form": (e, t) -> 
+  "submit form": (e, t) ->
     #
     dataIsLoaded.set(false)
     waitingForData.set(true)
@@ -17,7 +17,6 @@ Template.jumbotronQuery.events
     putFieldIntoQuery( t.find("[name=fiscalYr]")?.value, "Fiscal Year", query )
     putFieldIntoQuery( t.find("[name=periodNbr]")?.value, "Period Nbr", query )
     #
-    console.log query
     Session.set "query", query
     Meteor.subscribe('data', query, onReady: ->
       dataIsLoaded.set(true) # Global var declared in global.coffee
@@ -42,18 +41,18 @@ putFieldIntoQuery = (value, fieldName, query)->
 
 # Regex - TODO. Not sure how to determine if regex yet...
 isRegex = (value)->
-  # try 
+  # try
   #   new RegExp(value, "i")
   #   return true
   # catch err
   #   return false
   return false
-    
+
 regexFieldIntoQuery = (value, fieldName, query)->
   query[fieldName] = { $regex: value }
   return
 
-# Comma Separated 
+# Comma Separated
 isCommaSeparated = (value)->
   value.split(',').length > 1
 
@@ -69,7 +68,7 @@ commaSeparatedFieldIntoQuery = (value, fieldName, query)->
         item = Number(item)
       itemsArray.push item
       ++i
-  query[fieldName] = { $in: itemsArray } 
+  query[fieldName] = { $in: itemsArray }
   return
 
 # Range
@@ -80,10 +79,10 @@ rangedFieldIntoQuery = (value, fieldName, query)->
   nums = value.split('-')
   if nums.length == 2
     nums.sort()
-    query[fieldName] = { $gte: Number(nums[0]), $lte: Number(nums[1]) } 
+    query[fieldName] = { $gte: Number(nums[0]), $lte: Number(nums[1]) }
   return
 
-# 
+#
 createExportFiles = (query)->
   fileId = moment().format()
   Session.set "fileId", fileId
@@ -100,10 +99,9 @@ createExportFiles = (query)->
   return
 
 
-# 
+#
 Meteor.Spinner.options = {
   top: '220px',
   length: 30,
   width: 6
 }
-

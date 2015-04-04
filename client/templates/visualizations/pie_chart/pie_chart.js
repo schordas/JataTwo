@@ -103,7 +103,7 @@ function drawPieChart() {
 					color: "#333333",
 					font: "arial",
 					fontSize: 10,
-					decimalPlaces: 3
+					decimalPlaces: 2
 				},
 				value: {
 					color: "#cccc44",

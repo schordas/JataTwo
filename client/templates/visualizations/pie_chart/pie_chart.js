@@ -130,9 +130,9 @@ function drawPieChart() {
 				highlightLuminosity: -0.2
 			},
 			tooltips: {
-				enabled: false,
+				enabled: true,
 				type: "placeholder", // caption|placeholder
-				string: "",
+				string: pieChartKey.get() + " {label}: {value}, {percentage}%",
 				placeholderParser: null,
 				styles: {
 					fadeInSpeed: 250,
@@ -141,7 +141,7 @@ function drawPieChart() {
 					color: "#efefef",
 					borderRadius: 2,
 					font: "arial",
-					fontSize: 10,
+					fontSize: 15,
 					padding: 4
 				}
 			},

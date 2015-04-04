@@ -1,4 +1,4 @@
-pieChartKey = new ReactiveVar('Fiscal Year');
+pieChartKey = new ReactiveVar('Period Nbr');
 pieChartValue = new ReactiveVar('MTD Burdened Costs');
 
 var pie;

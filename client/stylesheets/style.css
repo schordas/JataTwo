@@ -289,7 +289,7 @@ a:focus {
   margin: 8px;
 }
 
-.navbar-collapse, 
+.navbar-collapse,
 .collapse {
   background: #FFF;
 }
@@ -368,11 +368,18 @@ a:focus {
   background-color: lightgray;
 }
 
-}
 
 /*
 * Graphs
 */
+#bar-chart-container {
+  text-align: center;
+}
+
+#bar-chart-y-axis-control {
+  float: left;
+}
+
 .chart-container {
   background: #f5f5f5;
 }

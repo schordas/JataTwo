@@ -4,13 +4,10 @@ barChartDrillDown = new ReactiveVar('level2');
 
 Template.barChart.rendered = function() {
   Meteor.autorun(function() {
-    var barChartContainer;
+    // Bar chart will resize on browser window resize
+    window.addEventListener('resize', renderBarChart, false);
+    //
     if (dataIsLoaded.get()) {
-      if (d3.select('#bar-chart-svg')[0][0] !== null) {
-        barChartContainer = document.getElementById('bar-chart');
-        barChartContainer.removeChild(document.getElementById('bar-chart-svg'));
-      }
-      console.log("rerendering");
       renderBarChart();
     }
   });
@@ -18,16 +15,25 @@ Template.barChart.rendered = function() {
 
 function renderBarChart() {
   /*
+  * Remove the old bar chart
+  */
+  if (d3.select('#bar-chart-svg')[0][0] !== null) {
+    var barChartContainer = document.getElementById('bar-chart');
+    barChartContainer.removeChild(document.getElementById('bar-chart-svg'));
+  }
+  /*
   * Data Aggregation
   */
   var queryData = Data.find(Session.get('query')).fetch();
   var data = [];
   var indexMap = []; // maps the level category id to index
   var dataHierTemp = DataHierarchy.find().fetch();
+  // Make a map out of dataHierTemp
   var dataHierarchy = [];
   dataHierTemp.forEach(function(item) {
     dataHierarchy[item["_id"]] = item;
   });
+  // Convert the data to follow the appropriate format as defined here: http://bl.ocks.org/mbostock/3886208
   queryData.forEach(function(d) {
     /*
     * If the x-axis item does not exist in data yet, add it to data
@@ -39,7 +45,6 @@ function renderBarChart() {
       data[data.length - 1]["label"] = d[barChartXAxis.get()];
     } // end if exists
     var index = indexMap["_" + String(d[ barChartXAxis.get() ])];
-    //var expType = DataHierarchy.findOne({_id : d["Expenditure Type"]});
     var expType = dataHierarchy[d["Expenditure Type"]];
     if (expType != undefined) {
       if (data[index][expType[barChartDrillDown.get()]] == undefined) {
@@ -53,8 +58,12 @@ function renderBarChart() {
   * Bar Chart
   */
   // Declare variables
+  var containerWidth = document.getElementById('bar-chart').offsetWidth;
+  var containerHeight = document.getElementById('myPie').offsetHeight;
+  // $('#bar-chart').css('min-height', containerHeight);
+
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+    width = containerWidth - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
   var x = d3.scale.ordinal()

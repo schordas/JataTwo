@@ -29,8 +29,6 @@ Template.registerHelper 'range', ->
 			{label: "MTD EAC Raw Plan"},
 			{label: "MTD EOC Burdened Plan"},
 			{label: "MTD EOC Raw Plan"},
-			{label: "MTD EAC FTE Plan"},
-			{label: "MTD EAC Hours Plan"},
 			{label: "MTD Burdened Cost Plan"},
 			{label: "MTD Burdened Oblg Plan"},
 			{label: "MTD FTE Plan"},

@@ -35,7 +35,7 @@ function drawPieChart() {
 	}
 
 	var pageWidth = document.getElementById('myPie').offsetWidth;
-	var pieWidth = Math.floor(pageWidth * 2 / 3);
+	var pieWidth = Math.floor(pageWidth / 2);
 	var pieHeight = pieWidth;
 	$('#myPie').css('min-height', pieHeight);
 

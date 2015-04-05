@@ -88,7 +88,7 @@ function renderBarChart() {
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
-      return "<strong>" + d.name + ":</strong> <span style='color:red'>" + d.value + "</span>";
+      return "<strong>" + barChartXAxis.get() + ": </strong><span style='color:red'>" + d.bar + "</span><br><strong>" + d.name + ":</strong> <span style='color:red'>" + d.value + "</span>";
     })
 
   var svg = d3.select("#bar-chart").append("svg")
@@ -105,12 +105,13 @@ function renderBarChart() {
     return key !== "label";
   }));
   data.forEach(function(d) {
+    console.log(d);
     var y0 = 0;
     d.levelCat = color.domain().map(function(name) {
       if (d[name] == undefined) {
-        return {name: name, y0: 0, y1: 0, value: 0};
+        return {name: name, y0: 0, y1: 0, value: 0, bar: d.label};
       }
-      return {name: name, y0: y0, y1: y0 += +d[name], value: d[name]};
+      return {name: name, y0: y0, y1: y0 += +d[name], value: d[name], bar: d.label};
     });
     d.total = d.levelCat[d.levelCat.length - 1].y1;
   });

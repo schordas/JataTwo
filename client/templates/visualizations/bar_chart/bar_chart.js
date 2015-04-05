@@ -59,12 +59,12 @@ function renderBarChart() {
   */
   // Declare variables
   var containerWidth = document.getElementById('bar-chart').offsetWidth;
-  var containerHeight = document.getElementById('myPie').offsetHeight;
+  var containerHeight = containerWidth / 3;
   // $('#bar-chart').css('min-height', containerHeight);
 
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = containerWidth - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = containerHeight - margin.top - margin.bottom;
 
   var x = d3.scale.ordinal()
       .rangeRoundBands([0, width], .1);
@@ -105,7 +105,6 @@ function renderBarChart() {
     return key !== "label";
   }));
   data.forEach(function(d) {
-    console.log(d);
     var y0 = 0;
     d.levelCat = color.domain().map(function(name) {
       if (d[name] == undefined) {

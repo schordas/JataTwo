@@ -14,12 +14,6 @@ Template.barChart.rendered = function() {
   });
 };
 
-Template.barChart.events({
-  'click button': function(){
-
-  }
-});
-
 function getDataByYValue(yValue) {
   var queryData = Data.find(Session.get('query')).fetch();
   var data = [];
@@ -61,11 +55,7 @@ function renderBarChart() {
     var barChartContainer = document.getElementById('bar-chart');
     barChartContainer.removeChild(document.getElementById('bar-chart-svg'));
   }
-  data = getDataByYValue(barChartYAxis.get());
 
-  /*
-  * Bar Chart
-  */
   // Declare variables
   var containerWidth = document.getElementById('bar-chart').offsetWidth;
   var containerHeight = containerWidth / 3;
@@ -107,52 +97,62 @@ function renderBarChart() {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   
   svg.call(tip);
-  
-  // Draw Bar Chart
-  color.domain(d3.keys(data[0]).filter(function(key) {
-    return key !== "label";
-  }));
-  data.forEach(function(d) {
-    var y0 = 0;
-    d.levelCat = color.domain().map(function(name) {
-      if (d[name] == undefined) {
-        return {name: name, y0: 0, y1: 0, value: 0, bar: d.label};
-      }
-      return {name: name, y0: y0, y1: y0 += +d[name], value: d[name], bar: d.label};
-    });
-    d.total = d.levelCat[d.levelCat.length - 1].y1;
-  });
-  
-  x.domain(data.map(function(d) { return d.label; }));
-  y.domain([0, d3.max(data, function(d) { return d.total; })]);
-  
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-      .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", function(d) {
-                return "rotate(-65)"
-                });
-  
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-  
-  var numColumns = 10; // change to be the number of y-axis's chosen
+
+  innerColumns = [];
+  innerColumns.push(barChartYAxis.get());
+  innerColumns.push("MTD Burdened Obligations");
+
+  var numColumns = innerColumns.length;
 
   for (i = 0; i < numColumns; ++i) {
+    data = getDataByYValue(innerColumns[i]);
+    /*
+    * Bar Chart
+    */
+    // Draw Bar Chart
+    color.domain(d3.keys(data[0]).filter(function(key) {
+      return key !== "label";
+    }));
+    data.forEach(function(d) {
+      var y0 = 0;
+      d.levelCat = color.domain().map(function(name) {
+        if (d[name] == undefined) {
+          return {name: name, y0: 0, y1: 0, value: 0, bar: d.label};
+        }
+        return {name: name, y0: y0, y1: y0 += +d[name], value: d[name], bar: d.label};
+      });
+      d.total = d.levelCat[d.levelCat.length - 1].y1;
+    });
+    
+    x.domain(data.map(function(d) { return d.label; }));
+    y.domain([0, d3.max(data, function(d) { return d.total; })]);
+    
+    if (i == 0) {
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis)
+          .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", function(d) {
+                    return "rotate(-65)"
+                    });
+      
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+    }
+
 
     var state = svg.selectAll(".state")
         .data(data)
       .enter().append("g")
         .attr("class", "g")
         .attr("transform", function(d) { return "translate(" + (x(d.label) + i * x.rangeBand()/numColumns) + ",0)"; });
-  
-  
+
+
     state.selectAll("rect")
         .data(function(d) { return d.levelCat; })
       .enter().append("rect")
@@ -162,26 +162,27 @@ function renderBarChart() {
         .style("fill", function(d) { return color(d.name); })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
+
+    
+    var legend = svg.selectAll(".legend")
+        .data(color.domain().slice().reverse())
+      .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+    
+    legend.append("rect")
+        .attr("x", width - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", color);
+    
+    legend.append("text")
+        .attr("x", width - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) { return d; });
   }
-  
-  var legend = svg.selectAll(".legend")
-      .data(color.domain().slice().reverse())
-    .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-  
-  legend.append("rect")
-      .attr("x", width - 18)
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", color);
-  
-  legend.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text(function(d) { return d; });
 };
 
 function addCommas(nStr)

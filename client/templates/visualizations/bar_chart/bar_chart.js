@@ -143,7 +143,7 @@ function renderBarChart() {
       svg.append("g")
           .attr("class", "y axis")
           .call(yAxis)
-    }
+    } 
 
 
     var state = svg.selectAll(".state")

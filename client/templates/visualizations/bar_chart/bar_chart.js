@@ -59,43 +59,44 @@ function renderBarChart() {
   // Declare variables
   var containerWidth = document.getElementById('bar-chart').offsetWidth;
   var containerHeight = containerWidth / 3;
-  
+
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = containerWidth - margin.left - margin.right,
     height = containerHeight - margin.top - margin.bottom;
-  
+
   var x = d3.scale.ordinal()
       .rangeRoundBands([0, width], .1);
-  
+
   var y = d3.scale.linear()
       .rangeRound([height, 0]);
-  
-  var color = d3.scale.ordinal()
-      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-  
+
+  var color = d3.scale.linear()
+      .domain([0,DataHierarchy.find().count()])
+      .range(["#98abc5", "#ff8c00"]);
+
   var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
-  
+
   var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
       .tickFormat(d3.format(".2s"));
-  
+
   var tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
       return "<strong>" + barChartXAxis.get() + ": </strong><span style='color:red'>" + d.bar + "</span><br><strong>" + d.name + ":</strong> <span style='color:red'>" + addCommas(d.value) + "</span>";
     })
-  
+
   var svg = d3.select("#bar-chart").append("svg")
       .attr("id", "bar-chart-svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
+
   svg.call(tip);
 
   innerColumns = [];
@@ -104,18 +105,23 @@ function renderBarChart() {
 
   var numColumns = innerColumns.length;
 
+  var barChartDomain = []
+
   for (i = 0; i < numColumns; ++i) {
     data = getDataByYValue(innerColumns[i]);
     /*
     * Bar Chart
     */
     // Draw Bar Chart
-    color.domain(d3.keys(data[0]).filter(function(key) {
+    barChartDomain = d3.keys(data[0]).filter(function(key) {
       return key !== "label";
-    }));
+    });
+    // color.domain(d3.keys(data[0]).filter(function(key) {
+    //   return key !== "label";
+    // }));
     data.forEach(function(d) {
       var y0 = 0;
-      d.levelCat = color.domain().map(function(name) {
+      d.levelCat = barChartDomain.map(function(name) {
         if (d[name] == undefined) {
           return {name: name, y0: 0, y1: 0, value: 0, bar: d.label};
         }
@@ -123,10 +129,10 @@ function renderBarChart() {
       });
       d.total = d.levelCat[d.levelCat.length - 1].y1;
     });
-    
+
     x.domain(data.map(function(d) { return d.label; }));
     y.domain([0, d3.max(data, function(d) { return d.total; })]);
-    
+
     if (i == 0) {
       svg.append("g")
           .attr("class", "x axis")
@@ -139,11 +145,11 @@ function renderBarChart() {
                 .attr("transform", function(d) {
                     return "rotate(-65)"
                     });
-      
+
       svg.append("g")
           .attr("class", "y axis")
           .call(yAxis)
-    } 
+    }
 
 
     var state = svg.selectAll(".state")
@@ -163,19 +169,19 @@ function renderBarChart() {
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
-    
+
     var legend = svg.selectAll(".legend")
-        .data(color.domain().slice().reverse())
+        .data(barChartDomain.slice().reverse())
       .enter().append("g")
         .attr("class", "legend")
         .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-    
+
     legend.append("rect")
         .attr("x", width - 18)
         .attr("width", 18)
         .attr("height", 18)
         .style("fill", color);
-    
+
     legend.append("text")
         .attr("x", width - 24)
         .attr("y", 9)

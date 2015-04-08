@@ -70,10 +70,6 @@ function renderBarChart() {
   var y = d3.scale.linear()
       .rangeRound([height, 0]);
 
-  var color = d3.scale.linear()
-      .domain([0,DataHierarchy.find().count()])
-      .range(["#98abc5", "#ff8c00"]);
-
   var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
@@ -116,6 +112,9 @@ function renderBarChart() {
     barChartDomain = d3.keys(data[0]).filter(function(key) {
       return key !== "label";
     });
+    var color = d3.scale.linear()
+      .domain([0,barChartDomain.length])
+      .range(["#98abc5", "#ff8c00"]);
     // color.domain(d3.keys(data[0]).filter(function(key) {
     //   return key !== "label";
     // }));
@@ -165,7 +164,7 @@ function renderBarChart() {
         .attr("width", x.rangeBand()/numColumns)
         .attr("y", function(d) { return y(d.y1); })
         .attr("height", function(d) { return y(d.y0) - y(d.y1); })
-        .style("fill", function(d) { return color(d.name); })
+        .style("fill", function(d,i) { return color(i); })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
@@ -180,7 +179,7 @@ function renderBarChart() {
         .attr("x", width - 18)
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", color);
+        .style("fill", function(d,i) { return color(i);} );
 
     legend.append("text")
         .attr("x", width - 24)

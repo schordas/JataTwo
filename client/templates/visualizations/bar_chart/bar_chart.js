@@ -57,47 +57,6 @@ function renderBarChart() {
   }
 
   /*
-  * Various D3 Initializations
-  */
-  var containerWidth = document.getElementById('bar-chart').offsetWidth;
-  var containerHeight = containerWidth / 3;
-
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = containerWidth - margin.left - margin.right,
-    height = containerHeight - margin.top - margin.bottom;
-
-  var x = d3.scale.ordinal()
-      .rangeRoundBands([0, width], .1);
-
-  var y = d3.scale.linear()
-      .rangeRound([height, 0]);
-
-  var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient("bottom");
-
-  var yAxis = d3.svg.axis()
-      .scale(y)
-      .orient("left")
-      .tickFormat(d3.format(".2s"));
-
-  var tip = d3.tip()
-    .attr('class', 'd3-tip')
-    .offset([-10, 0])
-    .html(function(d) {
-      return "<strong>" + barChartXAxis.get() + ": </strong><span style='color:red'>" + d.bar + "</span><br><strong>" + d.name + ":</strong> <span style='color:red'>" + addCommas(d.value) + "</span>";
-    })
-
-  var svg = d3.select("#bar-chart").append("svg")
-      .attr("id", "bar-chart-svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  svg.call(tip);
-
-
-  /*
   * Determine columns 
   */
   var numColumns = barChartYAxes.get().length;
@@ -127,6 +86,52 @@ function renderBarChart() {
       }
     });
   }
+
+  /*
+  * Various D3 Initializations
+  */
+  //
+  var maxLabelLength = d3.max(dataArray[0], function(d) { return String(d.label).length; });
+  var maxLabelHeight = maxLabelLength * ((maxLabelLength > 8) ? 4 : 3); // used for x-axis labels that overflow
+  //
+  var containerWidth = document.getElementById('bar-chart').offsetWidth;
+  var containerHeight = (containerWidth / 3) + maxLabelHeight;
+  //
+  var margin = {top: 20, right: 20, bottom: 30 + maxLabelHeight, left: 40},
+    width = containerWidth - margin.left - margin.right,
+    height = containerHeight - margin.top - margin.bottom;
+
+  var x = d3.scale.ordinal()
+      .rangeRoundBands([0, width], .1);
+
+  var y = d3.scale.linear()
+      .rangeRound([height, 0]);
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      .tickFormat(d3.format(".2s"));
+  //
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<strong>" + barChartXAxis.get() + ": </strong><span style='color:red'>" + d.bar + "</span><br><strong>" + d.name + ":</strong> <span style='color:red'>" + addCommas(d.value) + "</span>";
+    })
+  // The main event!
+  var svg = d3.select("#bar-chart").append("svg")
+      .attr("id", "bar-chart-svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+  svg.call(tip);
+
 
   /*
   * Determine domain and range

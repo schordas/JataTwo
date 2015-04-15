@@ -31,6 +31,9 @@ body {
     -o-border-radius: 0px 0px 3px 3px;
     border-radius: 0px 0px 3px 3px; }
 
+.navbar-fixed-top {
+  position: absolute;
+}
 
 #spinner {
   height: 300px; }

@@ -20,6 +20,7 @@ Meteor.startup(function() {
 					DataHierarchy.insert(
 						{
 							_id : fields[2],
+							level3 : fields[2],
 							level2 : fields[1],
 							level1 : fields[0]
 

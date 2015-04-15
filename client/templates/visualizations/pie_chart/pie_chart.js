@@ -15,25 +15,72 @@ function drawPieChart() {
 	// Data
 	var data = Data.find(Session.get('query')).fetch();
 	var dataArray = [];
-	for (var d in data) {
-		if (dataArray[ data[d][pieChartKey.get()] ] == undefined) {
-			dataArray[ data[d][pieChartKey.get()] ] = {
-				label : String(data[d][pieChartKey.get()]),
-				value : 0
-			};
-		}
-			dataArray[ data[d][pieChartKey.get()] ]['value'] += data[d][pieChartValue.get()];
-	}
-	var finalData = [];
-	for (var d in dataArray) {
-		finalData.push(dataArray[d]);
+	var indexMap = [];
+	if (pieChartKey.get().indexOf("level") > -1) { 
+	// Drill down
+		var dataHierarchy = [];
+		DataHierarchy.find().fetch().forEach(function(item) {
+			dataHierarchy[item["_id"]] = item;
+		});
+		// aggregate data
+		data.forEach(function(d) {
+			if (dataHierarchy[ d['Expenditure Type'] ] != undefined) {
+				var key = dataHierarchy[ d['Expenditure Type'] ][ pieChartKey.get() ];
+				if (dataArray[ indexMap[key] ] == undefined) {
+					indexMap[key] = dataArray.length;
+      				dataArray.push({
+						label : String(key),
+						value : 0
+					});
+				}
+				if (dataArray[ indexMap[key] ] == undefined) {
+					console.log(indexMap[key] + " " + key);
+				}
+				dataArray[ indexMap[key] ].value += d[pieChartValue.get()];
+			}
+		});
+	} else { 
+	// normal key
+		data.forEach(function(d) {
+			var key = d[pieChartKey.get()];
+			if (indexMap["_" + String(key)] == undefined) {
+				indexMap["_" + String(key)] = dataArray.length;
+				dataArray.push({
+					label : String(key),
+					value : 0
+				});
+			}
+			dataArray[ indexMap["_" + String(key)] ].value += d[pieChartValue.get()];
+		});
+
+
+		// for (var d in data) {
+		// 	var key = data[d][pieChartKey.get()];
+		// 	if (indexMap["_" + String(key)] == undefined) {
+		// 		indexMap["_" + String(key)] = data.length;
+  //     			dataArray[ dataArray.length ] = {};
+		// 		dataArray[ dataArray.length - 1 ] = {
+		// 			label : String(key),
+		// 			value : 0
+		// 		};
+		// 	}
+		// 	dataArray[ indexMap["_" + String(key)] ].value += data[d][pieChartValue.get()];
+		// }
 	}
 
-	// Draw Pie Chart - see http://d3pie.org/#docs-api for more info
+	// var finalData = [];
+	// for (var d in dataArray) {
+	// 	finalData.push(dataArray[d]);
+	// }
+
+	/*
+	* Draw
+	*/
+	// Remove old chart
 	if (pie != undefined) {
 		pie.destroy();
 	}
-
+	//
 	var pageWidth = document.getElementById('myPie').offsetWidth;
 	var pieWidth = Math.floor(pageWidth / 2);
 	var pieHeight = pieWidth;
@@ -82,7 +129,7 @@ function drawPieChart() {
 
 				// REQUIRED! This is where you enter your pie data; it needs to be an array of objects
 				// of this form: { label: "label", value: 1.5, color: "#000000" } - color is optional
-				content: finalData
+				content: dataArray
 			},
 			labels: {
 				outer: {

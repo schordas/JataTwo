@@ -92,33 +92,28 @@ function renderBarChart() {
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
   svg.call(tip);
 
+
+  /*
+  * Determine columns 
+  */
   innerColumns = [];
   innerColumns.push(barChartYAxis.get());
-  innerColumns.push("MTD Burdened Obligations");
-
+  innerColumns.push("MTD Burdened Obligations"); // TEMP HARD CODE. TODO Dyanmically add inner-columns
   var numColumns = innerColumns.length;
 
-  var barChartDomain = []
-
+  /*
+  * Prepare Data
+  */
+  var dataArray = [];
+  var maxYValue = 0;
   for (i = 0; i < numColumns; ++i) {
-    data = getDataByYValue(innerColumns[i]);
-    /*
-    * Bar Chart
-    */
-    // Draw Bar Chart
-    barChartDomain = d3.keys(data[0]).filter(function(key) {
+    dataArray[i] = getDataByYValue(innerColumns[i]);
+    var barChartDomain = d3.keys(dataArray[i][0]).filter(function(key) {
       return key !== "label";
     });
-    var color = d3.scale.linear()
-      .domain([0,barChartDomain.length])
-      .range(["#98abc5", "#ff8c00"]);
-    // color.domain(d3.keys(data[0]).filter(function(key) {
-    //   return key !== "label";
-    // }));
-    data.forEach(function(d) {
+    dataArray[i].forEach(function(d) { // TODO move this into the getDataByYValue function to speed things up
       var y0 = 0;
       d.levelCat = barChartDomain.map(function(name) {
         if (d[name] == undefined) {
@@ -127,29 +122,27 @@ function renderBarChart() {
         return {name: name, y0: y0, y1: y0 += +d[name], value: d[name], bar: d.label};
       });
       d.total = d.levelCat[d.levelCat.length - 1].y1;
+      
+      if (d.total > maxYValue) {
+        maxYValue = d.total;
+      }
     });
+  }
 
-    x.domain(data.map(function(d) { return d.label; }));
-    y.domain([0, d3.max(data, function(d) { return d.total; })]);
+  /*
+  * Determine domain and range
+  */
+  var color = d3.scale.linear()
+    .domain([0,barChartDomain.length])
+    .range(["#98abc5", "#ff8c00"]);
+  x.domain(dataArray[0].map(function(d) { return d.label; })); // TODO the first element might not have all the domains
+  y.domain([0, maxYValue]);
 
-    if (i == 0) {
-      svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis)
-          .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", ".15em")
-                .attr("transform", function(d) {
-                    return "rotate(-65)"
-                    });
-
-      svg.append("g")
-          .attr("class", "y axis")
-          .call(yAxis)
-    }
-
+  /*
+  * Draw bars
+  */
+  for (i = 0; i < numColumns; ++i) {
+    data = dataArray[i];
 
     var state = svg.selectAll(".state")
         .data(data)
@@ -167,27 +160,50 @@ function renderBarChart() {
         .style("fill", function(d,i) { return color(i); })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
-
-
-    var legend = svg.selectAll(".legend")
-        .data(barChartDomain.slice().reverse())
-      .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-    legend.append("rect")
-        .attr("x", width - 18)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", function(d,i) { return color(i);} );
-
-    legend.append("text")
-        .attr("x", width - 24)
-        .attr("y", 9)
-        .attr("dy", ".35em")
-        .style("text-anchor", "end")
-        .text(function(d) { return d; });
   }
+
+
+  /*
+  * Draw Axes
+  */
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", function(d) {
+              return "rotate(-65)"
+              });
+
+  svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+
+  /*
+  * Draw Legend
+  */
+  var legend = svg.selectAll(".legend")
+      .data(barChartDomain.slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", function(d,i) { return color(i);} );
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
 };
 
 function addCommas(nStr)

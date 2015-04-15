@@ -138,8 +138,7 @@ function drawPieChart() {
 					pieDistance: 30
 				},
 				inner: {
-					format: "percentage",
-					hideWhenLessThanPercentage: 3
+					format: null
 				},
 				mainLabel: {
 					color: "#333333",

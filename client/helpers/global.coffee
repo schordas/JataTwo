@@ -51,6 +51,13 @@ Template.registerHelper 'drillDownValues', ->
         	value: 'level3'
       	}
     	]
+
+Template.registerHelper 'withIndex', (list) ->
+    withIndex = _.map list, (v, i) ->
+        v.index = i
+        return v
+    return withIndex
+
 #
 # All data fields in array format
 #

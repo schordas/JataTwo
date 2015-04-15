@@ -1,6 +1,6 @@
 barChartXAxis = new ReactiveVar('Period Nbr');
 //yAxis
-barChartYAxis = new ReactiveVar('MTD Burdened Costs');
+barChartYAxes = new ReactiveVar( [ new ReactiveVar('MTD Burdened Costs') ] ); // array of arrays
 barChartDrillDown = new ReactiveVar('level2');
 
 Template.barChart.rendered = function() {
@@ -56,7 +56,9 @@ function renderBarChart() {
     barChartContainer.removeChild(document.getElementById('bar-chart-svg'));
   }
 
-  // Declare variables
+  /*
+  * Various D3 Initializations
+  */
   var containerWidth = document.getElementById('bar-chart').offsetWidth;
   var containerHeight = containerWidth / 3;
 
@@ -98,10 +100,7 @@ function renderBarChart() {
   /*
   * Determine columns 
   */
-  innerColumns = [];
-  innerColumns.push(barChartYAxis.get());
-  innerColumns.push("MTD Burdened Obligations"); // TEMP HARD CODE. TODO Dyanmically add inner-columns
-  var numColumns = innerColumns.length;
+  var numColumns = barChartYAxes.get().length;
 
   /*
   * Prepare Data
@@ -109,7 +108,7 @@ function renderBarChart() {
   var dataArray = [];
   var maxYValue = 0;
   for (i = 0; i < numColumns; ++i) {
-    dataArray[i] = getDataByYValue(innerColumns[i]);
+    dataArray[i] = getDataByYValue(barChartYAxes.get()[i].get());
     var barChartDomain = d3.keys(dataArray[i][0]).filter(function(key) {
       return key !== "label";
     });
@@ -162,7 +161,6 @@ function renderBarChart() {
         .on('mouseout', tip.hide);
   }
 
-
   /*
   * Draw Axes
   */
@@ -177,7 +175,7 @@ function renderBarChart() {
           .attr("transform", function(d) {
               return "rotate(-65)"
               });
-
+  //
   svg.append("g")
     .attr("class", "y axis")
     .call(yAxis);

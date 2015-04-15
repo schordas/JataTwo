@@ -377,8 +377,13 @@ a:focus {
   text-align: center;
 }
 
-#bar-chart-y-axis-control {
+#bar-chart-y-axes {
   float: left;
+  width: 17%;
+}
+
+#bar-chart-y-axes .bar-chart-y-axis-control {
+  width: 100%;
 }
 
 .chart-container {

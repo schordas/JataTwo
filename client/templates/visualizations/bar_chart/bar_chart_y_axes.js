@@ -20,8 +20,20 @@ Template.barChartYAxes.events({
   	}
   },
   "click button": function(e) {
-  	var temp = barChartYAxes.get();
-  	temp.push(new ReactiveVar('MTD Burdened Costs'));
-  	barChartYAxes.set(temp);
+    console.log(e.target.getAttribute('class'));
+    if (e.target.getAttribute('class') == 'add-btn') {
+      var temp = barChartYAxes.get();
+      temp.push(new ReactiveVar('MTD Burdened Costs'));
+      barChartYAxes.set(temp);
+    } else if (e.target.getAttribute('class') == 'remove-btn') { 
+      if (barChartYAxes.get().length > 1) {
+        var index = e.target.getAttribute('index');
+        var temp = barChartYAxes.get();
+        console.log(temp);
+        temp.splice(index, 1);
+        console.log(temp);
+        barChartYAxes.set(temp);
+      }
+    }
   }
 });

@@ -383,10 +383,16 @@ a:focus {
 #bar-chart-y-axes {
   float: left;
   width: 17%;
+  clear: both;
 }
 
 #bar-chart-y-axes .bar-chart-y-axis-control {
-  width: 100%;
+  width: 80%;
+  float: left;
+}
+
+#bar-chart-y-axes .remove-btn {
+  float: left;
 }
 
 .chart-container {

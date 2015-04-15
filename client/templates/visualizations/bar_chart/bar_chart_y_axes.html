@@ -1,5 +1,6 @@
 <template name="barChartYAxes">
 	<div id="bar-chart-y-axes">
+		<h4>Y Axis</h4>
 		{{#each withIndex yAxes}}
 			<select 
 			class="selectpicker control bar-chart-y-axis-control" 
@@ -13,7 +14,9 @@
 					<option selected={{isSelected label}}>{{label}}</option>
 			    {{/each}}
   			</select>
+  			<button name="bar-chart-add-y-column" class="remove-btn" data-style="btn-primary" index={{index}}> - </button>	
 		{{/each}}
-		<button name="bar-chart-add-y-column" data-style="btn-primary"> + </button>
+		<button name="bar-chart-add-y-column" class="add-btn" data-style="btn-primary"> + </button>
+		<span>Add Bars</span>
 	</div>
 </template>

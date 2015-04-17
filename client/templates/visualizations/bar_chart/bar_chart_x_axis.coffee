@@ -8,12 +8,15 @@ Template.barChartXAxis.helpers
 		yearsInQuery.get().forEach (d)->
 			years.push(
 				{
-					label: d
+					label: d;
 				}
 				)
 		return years
 
 Template.barChartXAxis.events
-	"change select": (e,t)->
-		barChartXAxis.set( t.find("[name=bar-chart-x-axis]")?.value )
+	"change select": (e)->
+		if (e.target.name == "bar-chart-x-axis-year-control")
+			barChartSelectedYear.set(e.target.value)
+		else if (e.target.name == "bar-chart-x-axis")
+			barChartXAxis.set( e.target.value )
 		return

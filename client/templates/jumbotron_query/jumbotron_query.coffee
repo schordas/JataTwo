@@ -63,7 +63,6 @@ commaSeparatedFieldIntoQuery = (value, fieldName, query)->
     itemsArray = []
     i = 0
     while i < items.length
-      console.log items[i]
       item = items[i].trim()
       if !isNaN item
         item = Number(item)

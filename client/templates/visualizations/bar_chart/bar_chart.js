@@ -3,6 +3,7 @@ barChartXAxis = new ReactiveVar('Period Nbr');
 barChartYAxes = new ReactiveVar( [ new ReactiveVar('MTD Burdened Costs') ] ); // array of arrays
 barChartDrillDown = new ReactiveVar('level2');
 yearsInQuery = new ReactiveVar([]);
+barChartSelectedYear = new ReactiveVar("all");
 
 Template.barChart.rendered = function() {
   Meteor.autorun(function() {
@@ -40,16 +41,26 @@ function getDataByYValue(yValue) {
     var expType = dataHierarchy[d["Expenditure Type"]];
     //
     if (expType != undefined) {
-      if (data[index][expType[barChartDrillDown.get()]] == undefined) {
-        data[index][expType[barChartDrillDown.get()]] = 0;
+      if ( // add to the sum IF the following
+        barChartXAxis.get() != 'Period Nbr' ||  // if period is not the x axis,
+        barChartSelectedYear.get() == d['Fiscal Year'] || // if period is the x-axis and the years match
+        isNaN(barChartSelectedYear.get()) // all years is selected
+        ) {
+        if (data[index][expType[barChartDrillDown.get()]] == undefined) {
+          data[index][expType[barChartDrillDown.get()]] = 0;
+        }
+        data[index][expType[barChartDrillDown.get()]] += d[yValue];
       }
-      data[index][expType[barChartDrillDown.get()]] += d[yValue];
     }
     /*
     * Add to year array
     */
-    uniqueYears["_" + String(d["Fiscal Year"] )] = d["Fiscal Year"];
+    if ( uniqueYears.indexOf(d["Fiscal Year"]) < 0 ) {
+      uniqueYears.push( d["Fiscal Year"] );
+    }
   });
+  uniqueYears.sort();
+  uniqueYears.reverse();
   yearsInQuery.set(uniqueYears);
   return data;
 }
@@ -75,7 +86,6 @@ function renderBarChart() {
   var maxYValue = 0;
   for (i = 0; i < numColumns; ++i) {
     dataArray[i] = getDataByYValue(barChartYAxes.get()[i].get());
-    console.log(dataArray[i]);
     var barChartDomain = d3.keys(dataArray[i][0]).filter(function(key) {
       return key !== "label";
     });

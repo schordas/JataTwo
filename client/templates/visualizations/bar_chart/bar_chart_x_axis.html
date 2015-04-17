@@ -13,12 +13,13 @@
   	{{#if isPeriodSelected}}
 	  	<select 
 	  	class="selectpicker control" 
-	  	id="bar-chart-x-axis-control-secondary" 
-	  	name="bar-chart-x-axis-secondary" 
+	  	id="bar-chart-x-axis-year-control" 
+	  	name="bar-chart-x-axis-year-control" 
 	  	data-style="btn-primary" 
 	  	title="Select X-Axis-Secondary">
+        <option value="all" selected>All Years</option>
 	    	{{#each years}}
-	      		<option>{{label}}</option>
+	      	<option value={{label}}>{{label}}</option>
 	    	{{/each}}
 	  	</select>
   	{{/if}}

@@ -45,10 +45,6 @@ Template.registerHelper 'drillDownValues', ->
       	{
         	label: 'Level 2',
         	value: 'level2'
-      	}, 
-      	{
-        	label: 'Level 3',
-        	value: 'level3'
       	}
     	]
 

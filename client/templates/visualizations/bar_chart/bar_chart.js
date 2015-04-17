@@ -23,6 +23,7 @@ function getDataByYValue(yValue) {
   var dataHierarchy = [];
   DataHierarchy.find().fetch().forEach(function(item) {
     dataHierarchy[item["_id"]] = item;
+    //console.log(item[1]);
   });
   // Convert the data to follow the appropriate format as defined here: http://bl.ocks.org/mbostock/3886208
   var uniqueYears = [];
@@ -36,7 +37,7 @@ function getDataByYValue(yValue) {
       data[data.length] = [];
       data[data.length - 1]["label"] = d[barChartXAxis.get()];
     } // end if exists
-    
+
     var index = indexMap["_" + String(d[ barChartXAxis.get() ])];
     var expType = dataHierarchy[d["Expenditure Type"]];
     //
@@ -75,7 +76,7 @@ function renderBarChart() {
   }
 
   /*
-  * Determine columns 
+  * Determine columns
   */
   var numColumns = barChartYAxes.get().length;
 
@@ -146,7 +147,7 @@ function renderBarChart() {
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  
+
   svg.call(tip);
 
 

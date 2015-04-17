@@ -21,6 +21,17 @@ Template.jumbotronQuery.events
     Meteor.subscribe('data', query, onReady: ->
       if Data.find().count() > 0
         dataIsLoaded.set(true) # Global var declared in global.coffee
+      else
+        bootbox.dialog({
+          message: "Your parameters don't appear to be in the database. Check for spelling and case.",
+          title: "Oops!",
+          buttons: {
+            success: {
+              label: "OK",
+              className: "btn-primary",
+            },
+          }
+        });
       waitingForData.set(false)
       )
     createExportFiles(query)

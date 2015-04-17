@@ -1,0 +1,20 @@
+<template name="table">
+	<div class="col-lg-12">
+          <h1 class="page-header">
+            Data Table
+          </h1>
+          {{#if dataIsLoaded}}
+            <div class = "table">
+      			  <div id="table" class="table table-responsive data-table-container">
+      			    {{> reactiveTable class="table table-bordered table-striped table-hover" settings=settings}}
+      			  </div>
+            </div>
+          {{else}}
+            <ol class="breadcrumb">
+              <li class="active">
+                Will populate on query.
+              </li>
+            </ol>
+          {{/if}}
+  </div>
+</template>

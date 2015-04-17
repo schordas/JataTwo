@@ -1,0 +1,14 @@
+<template name="pieChartKey">
+  <select class="selectpicker control" id="pie-chart-key" name="pie-chart-key" data-style="btn-primary" title="Select Domain">
+    <optgroup label="Data Fields">
+	    {{#each domain}}
+			<option selected={{isSelected label}}>{{label}}</option>
+	    {{/each}}
+	</optgroup>
+	<optgroup label="Drill Downs">
+	    {{#each drillDownValues}}
+			<option selected={{isSelected label}} value="{{value}}">{{label}}</option>
+	    {{/each}}
+	</optgroup>
+  </select>
+</template>

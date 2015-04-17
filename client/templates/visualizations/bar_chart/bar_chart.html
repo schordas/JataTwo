@@ -1,0 +1,14 @@
+<template name="barChart">
+	<div class="col-lg-12">
+        <h1 class="page-header">
+          Bar Chart
+        </h1>
+        <div class="breadcrumb" id="bar-chart-container">
+            {{> barChartDrillDown}}
+        	{{> barChartYAxes}}
+			<div id="bar-chart">
+			</div>
+			{{> barChartXAxis}}
+        </div>
+	</div>
+</template>

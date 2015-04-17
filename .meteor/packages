@@ -4,11 +4,20 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-insecure
 mizzao:bootstrap-3
 coffeescript
 ian:accounts-ui-bootstrap-3
 accounts-password
 d3
+meteorhacks:npm
 
+
+npm-container
+aslagle:reactive-table
+
+mizzao:bootboxjs
+iron:router
+momentjs:moment
+percolate:synced-cron
+reactive-var
+sacha:spin

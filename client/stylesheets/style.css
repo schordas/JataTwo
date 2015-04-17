@@ -1,28 +1,10 @@
-.bar_graph div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
+svg {
+  width: 100%;
 }
-.bar_graph rect {
-  fill: steelblue;
-}
-
-.bar_graph text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
-}
-
-
-
-
 
 
 .grid-block, .main, .post, .comments li, .comment-form {
-  background: #fff;
+  /*background: #fff;*/
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
@@ -35,7 +17,7 @@
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); }
 
 body {
-  margin-top: 100px;
+  margin-top: 50px;
   background: #fff;
   color: #666666; }
 
@@ -49,6 +31,9 @@ body {
     -o-border-radius: 0px 0px 3px 3px;
     border-radius: 0px 0px 3px 3px; }
 
+.navbar-fixed-top {
+  position: absolute;
+}
 
 #spinner {
   height: 300px; }
@@ -153,6 +138,15 @@ body {
   font-weight: 100;
 }
 
+.exports {
+  width: 60px;
+  margin: 0 auto;
+}
+
+.export-link {
+  text-align: center;
+}
+
 @-webkit-keyframes fadeOut {
   0% {opacity: 0;}
   10% {opacity: 1;}
@@ -189,7 +183,7 @@ body {
 }
 
 /*Sidebar nav*/
-@media(min-width:768px) {
+/*@media(min-width:768px) {
 
     .side-nav {
         position: fixed;
@@ -206,7 +200,7 @@ body {
         width: 225px;
     }
 
-}
+}*/
 
 .side-nav>li {
   padding: 15px;
@@ -239,20 +233,86 @@ body {
   width: 220px;
 }
 
-.btn {
-  float: left;
+
+/*.form-group>li {
+  padding-right: 20px;
+  padding-left:20px;
+}*/
+.btn{
+  /*background-color:black;*/
+  box-shadow: 1px 1px 3px #888888;
 }
 
-.query-form {
-  padding: 0px;
+.btn-row{
+  padding-top:10px
 }
+
+a {
+  color: red;
+}
+
+a:hover,
+a:focus {
+  color: #ce1126;
+  text-decoration: underline;
+}
+
+/*.query-form {
+  padding: 0px;
+}*/
 
 /*Main panel*/
 
 @media(min-width:768px) {
     body {
-        margin-top: 50px;
+        /*margin-top: 50px;*/
     }
+  .navbar-nav > li > a {
+    padding-top: 20px;
+  }
+}
+
+.btn-primary {
+  background: red;
+  border-color: red;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #ce1126;
+  border-color: #ce1126;
+}
+
+#header-logo {
+  width: 100px;
+  margin: 8px;
+}
+
+.navbar-collapse,
+.collapse {
+  background: #FFF;
+}
+
+.container-fluid > .navbar-collapse {
+  padding: 0 8px;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: red;
+  background-color: inherit;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  color: red;
+  background-color: #080808;
 }
 
 #wrapper {
@@ -270,19 +330,110 @@ body {
     line-height: normal;
 }
 /*Data Table*/
-.data-table {
-  height:400px;
+.table > tbody > tr > td {
+  padding: 4px;
+}
+.data-table-container {
+  height: 500px;
   overflow: auto;
+}
+.data-table {
+  border: 1px solid grey;
+  table-layout: auto;
+  white-space: nowrap;
+}
+.data-table thead>tr>th{
+  border: 1px solid grey;
+}
+.data-table td{
+  border: 1px solid #ddd;
 }
 
 @media(min-width:768px) {
-    #wrapper {
+    /*#wrapper {
         padding-left: 225px;
-    }
+    }*/
 
     #page-wrapper {
         padding: 10px;
     }
 }
 
+#overlay
+{
+  visibility: hidden;
+  position: absolute;
+  left: 90px;
+  top: 120px;
+  width:200px;
+  height:90px;
+  text-align:center;
+  border: solid;
+  background-color: lightgray;
+}
+
+
+/*
+* Graphs
+*/
+#bar-chart-container {
+  text-align: center;
+}
+
+#bar-chart-y-axes {
+  float: left;
+  width: 17%;
+  clear: both;
+}
+
+#bar-chart-y-axes .bar-chart-y-axis-control {
+  width: 80%;
+  float: left;
+}
+
+#bar-chart-y-axes .remove-btn {
+  float: left;
+}
+
+.chart-container {
+  background: #f5f5f5;
+}
+.graph-controls {
+  text-align: center;
+}
+/* Bar Chart */
+#bar-chart svg text {
+  font-size: 8px;
+}
+#bar-chart {
+  background: #f5f5f5;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
 }

@@ -1,0 +1,12 @@
+<template name="exportButton">
+	<div class="dropdown exports">
+		<a id="dLabel" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+		  Export
+		  <span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		  <li><a id="json-export" class="export-link" href="{{CSVurl}}">CSV</a></li>
+		  <li><a id="csv-export" class="export-link" href="{{JSONurl}}">JSON</a></li>
+		</ul>
+	</div>
+</template>

@@ -1,0 +1,7 @@
+<template name="pieChartValue">
+	<select class="selectpicker control" id="pie-chart-value" name="pie-chart-value" data-style="btn-primary" title="Select Value">
+    	{{#each range}}
+      		<option selected={{isSelected label}}>{{label}}</option>
+    	{{/each}}
+  	</select>
+</template>

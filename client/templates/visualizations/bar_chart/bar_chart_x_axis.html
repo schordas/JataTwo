@@ -1,0 +1,26 @@
+<template name="barChartXAxis">
+  	<h5>X-Axis</h5>
+  	<select 
+  	class="selectpicker control" 
+  	id="bar-chart-x-axis-control" 
+  	name="bar-chart-x-axis" 
+  	data-style="btn-primary" 
+  	title="Select X-Axis">
+    	{{#each domain}}
+      		<option selected={{isSelected label}}>{{label}}</option>
+    	{{/each}}
+  	</select>
+  	{{#if isPeriodSelected}}
+	  	<select 
+	  	class="selectpicker control" 
+	  	id="bar-chart-x-axis-year-control" 
+	  	name="bar-chart-x-axis-year-control" 
+	  	data-style="btn-primary" 
+	  	title="Select X-Axis-Secondary">
+        <option value="all" selected>All Years</option>
+	    	{{#each years}}
+	      	<option value={{label}}>{{label}}</option>
+	    	{{/each}}
+	  	</select>
+  	{{/if}}
+</template>

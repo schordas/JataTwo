@@ -33,9 +33,6 @@ function drawPieChart() {
 						value : 0
 					});
 				}
-				if (dataArray[ indexMap[key] ] == undefined) {
-					console.log(indexMap[key] + " " + key);
-				}
 				dataArray[ indexMap[key] ].value += d[pieChartValue.get()];
 			}
 		});

@@ -20,7 +20,6 @@ Template.barChartYAxes.events({
   	}
   },
   "click button": function(e) {
-    console.log(e.target.getAttribute('class'));
     if (e.target.getAttribute('class') == 'add-btn') {
       var temp = barChartYAxes.get();
       temp.push(new ReactiveVar('MTD Burdened Costs'));
@@ -29,9 +28,7 @@ Template.barChartYAxes.events({
       if (barChartYAxes.get().length > 1) {
         var index = e.target.getAttribute('index');
         var temp = barChartYAxes.get();
-        console.log(temp);
         temp.splice(index, 1);
-        console.log(temp);
         barChartYAxes.set(temp);
       }
     }

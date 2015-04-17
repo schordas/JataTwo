@@ -19,7 +19,8 @@ Template.jumbotronQuery.events
     #
     Session.set "query", query
     Meteor.subscribe('data', query, onReady: ->
-      dataIsLoaded.set(true) # Global var declared in global.coffee
+      if Data.find().count() > 0
+        dataIsLoaded.set(true) # Global var declared in global.coffee
       waitingForData.set(false)
       )
     createExportFiles(query)

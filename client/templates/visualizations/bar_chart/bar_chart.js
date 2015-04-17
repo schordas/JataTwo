@@ -2,6 +2,7 @@ barChartXAxis = new ReactiveVar('Period Nbr');
 //yAxis
 barChartYAxes = new ReactiveVar( [ new ReactiveVar('MTD Burdened Costs') ] ); // array of arrays
 barChartDrillDown = new ReactiveVar('level2');
+yearsInQuery = new ReactiveVar([]);
 
 Template.barChart.rendered = function() {
   Meteor.autorun(function() {
@@ -18,13 +19,12 @@ function getDataByYValue(yValue) {
   var queryData = Data.find(Session.get('query')).fetch();
   var data = [];
   var indexMap = []; // maps the level category id to index
-  var dataHierTemp = DataHierarchy.find().fetch();
-  // Make a map out of dataHierTemp
   var dataHierarchy = [];
-  dataHierTemp.forEach(function(item) {
+  DataHierarchy.find().fetch().forEach(function(item) {
     dataHierarchy[item["_id"]] = item;
   });
   // Convert the data to follow the appropriate format as defined here: http://bl.ocks.org/mbostock/3886208
+  var uniqueYears = [];
   queryData.forEach(function(d) {
     /*
     * If the x-axis item does not exist in data yet, add it to data
@@ -35,15 +35,22 @@ function getDataByYValue(yValue) {
       data[data.length] = [];
       data[data.length - 1]["label"] = d[barChartXAxis.get()];
     } // end if exists
+    
     var index = indexMap["_" + String(d[ barChartXAxis.get() ])];
     var expType = dataHierarchy[d["Expenditure Type"]];
+    //
     if (expType != undefined) {
       if (data[index][expType[barChartDrillDown.get()]] == undefined) {
         data[index][expType[barChartDrillDown.get()]] = 0;
       }
       data[index][expType[barChartDrillDown.get()]] += d[yValue];
     }
+    /*
+    * Add to year array
+    */
+    uniqueYears["_" + String(d["Fiscal Year"] )] = d["Fiscal Year"];
   });
+  yearsInQuery.set(uniqueYears);
   return data;
 }
 
@@ -68,6 +75,7 @@ function renderBarChart() {
   var maxYValue = 0;
   for (i = 0; i < numColumns; ++i) {
     dataArray[i] = getDataByYValue(barChartYAxes.get()[i].get());
+    console.log(dataArray[i]);
     var barChartDomain = d3.keys(dataArray[i][0]).filter(function(key) {
       return key !== "label";
     });
@@ -80,7 +88,6 @@ function renderBarChart() {
         return {name: name, y0: y0, y1: y0 += +d[name], value: d[name], bar: d.label};
       });
       d.total = d.levelCat[d.levelCat.length - 1].y1;
-      
       if (d.total > maxYValue) {
         maxYValue = d.total;
       }
@@ -136,9 +143,13 @@ function renderBarChart() {
   /*
   * Determine domain and range
   */
-  var color = d3.scale.linear()
+  var color = d3.scale.ordinal()
     .domain([0,barChartDomain.length])
-    .range(["#98abc5", "#ff8c00"]);
+    .range(["#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
+        "#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
+        "#546e91", "#8bde95", "#d2ab58", "#273c71", "#98bf6e", "#4daa4b", "#98abc5", "#cc1010", "#31383b", "#006391",
+        "#c2643f", "#b0a474", "#a5a39c", "#a9c2bc", "#22af8c", "#7fcecf", "#987ac6", "#3d3b87", "#b77b1c", "#c9c2b6",
+        "#807ece", "#8db27c", "#be66a2", "#9ed3c6", "#00644b", "#005064", "#77979f", "#77e079", "#9c73ab", "#1f79a7"]);
   x.domain(dataArray[0].map(function(d) { return d.label; })); // TODO the first element might not have all the domains
   y.domain([0, maxYValue]);
 

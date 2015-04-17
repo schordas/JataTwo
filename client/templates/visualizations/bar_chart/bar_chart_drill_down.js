@@ -18,11 +18,7 @@ Template.barChartDrillDown.helpers({
 });
 
 Template.barChartDrillDown.events({
-  "change select": function(e, t) {
-  	var value = t.find("[name=bar-chart-drill-down]").value;
-  	if (value == "level3") {
-  		value = "_id";
-  	}
-    barChartDrillDown.set(value);
+  "change select": function(e) {
+    barChartDrillDown.set(e.target.value);
   }
 });

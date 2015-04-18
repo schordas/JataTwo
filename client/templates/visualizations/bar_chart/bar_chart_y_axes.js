@@ -3,12 +3,25 @@ Template.barChartYAxes.helpers({
   	return barChartYAxes.get();
   },
   isSelected: function(option, index) {
-  	// TODO. Implement this...
-   //  if (barChartYAxes.get()[index].get() === option) {
-   //    return true;
-   //  } else {
-   //    return false;
-   //  }
+    if (barChartYAxes.get()[index] != undefined) {
+      if (barChartYAxes.get()[index].get() === option) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  rangeWithIndex: function(range, index) {
+    var a = [];
+    range.forEach(function(d) {
+      a.push(
+        {
+          label: d.label,
+          index: index
+        }
+        );
+    });
+    return a;
   }
 });
 

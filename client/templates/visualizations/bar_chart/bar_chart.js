@@ -115,9 +115,9 @@ function renderBarChart() {
   var containerWidth = document.getElementById('bar-chart').offsetWidth;
   var containerHeight = (containerWidth / 3) + maxLabelHeight;
   //
-  var margin = {top: 20, right: 20, bottom: 30 + maxLabelHeight, left: 40},
+  var margin = {top: 100, right: 20, bottom: 30 + maxLabelHeight, left: 40},
     width = containerWidth - margin.left - margin.right,
-    height = containerHeight - margin.top - margin.bottom;
+    height = containerHeight - margin.top - margin.bottom + 100;
 
   var x = d3.scale.ordinal()
       .rangeRoundBands([0, width], .1);
@@ -127,12 +127,14 @@ function renderBarChart() {
 
   var xAxis = d3.svg.axis()
       .scale(x)
-      .orient("bottom");
+      .orient("bottom")
+      .tickFormat(d3.format(".1s"));;
 
   var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
-      .tickFormat(d3.format(".2s"));
+      .tickFormat(d3.format(".2s"));// line thickness
+
   //
   var tip = d3.tip()
     .attr('class', 'd3-tip')
@@ -210,20 +212,26 @@ function renderBarChart() {
   /*
   * Draw Legend
   */
+  var legend_tabs = [400, 420, 500, 675, 750];
   var legend = svg.selectAll(".legend")
       .data(barChartDomain.slice().reverse())
     .enter().append("g")
       .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+      .attr("transform", function(d, i) { return "translate(" + (i*width)/color.domain().length + ",-45)"; });
+  // var legend = svg.selectAll(".legend")
+  //     .data(barChartDomain.slice().reverse())
+  //   .enter().append("g")
+  //     .attr("class", "legend")
+  //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
   legend.append("rect")
-      .attr("x", width - 18)
+      .attr("x", 0)
       .attr("width", 18)
       .attr("height", 18)
       .style("fill", function(d,i) { return color(i);} );
 
   legend.append("text")
-      .attr("x", width - 24)
+      .attr("x", 40)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")

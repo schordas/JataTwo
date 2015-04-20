@@ -2,6 +2,12 @@ svg {
   width: 100%;
 }
 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
 
 .grid-block, .main, .post, .comments li, .comment-form {
   /*background: #fff;*/
@@ -436,4 +442,8 @@ a:focus {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
+}
+
+#pie-chart-key{
+  margin-right: 15px;
 }

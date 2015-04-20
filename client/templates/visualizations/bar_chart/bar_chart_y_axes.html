@@ -10,8 +10,8 @@
 			title="Select Y-Axis"
 			index={{index}}
 			>
-			    {{#each range}}
-					<option selected={{isSelected label}}>{{label}}</option>
+			    {{#each rangeWithIndex range index}}
+					<option selected={{isSelected label index}}>{{label}}</option>
 			    {{/each}}
   			</select>
   			<button name="bar-chart-add-y-column" class="remove-btn" data-style="btn-primary" index={{index}}> - </button>	

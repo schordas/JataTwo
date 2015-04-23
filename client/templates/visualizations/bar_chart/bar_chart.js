@@ -112,12 +112,14 @@ function renderBarChart() {
   var maxLabelLength = d3.max(dataArray[0], function(d) { return String(d.label).length; });
   var maxLabelHeight = maxLabelLength * ((maxLabelLength > 8) ? 4 : 3); // used for x-axis labels that overflow
   //
+  var legendWidth = 74;
+  //
   var containerWidth = document.getElementById('bar-chart').offsetWidth;
   var containerHeight = (containerWidth / 3) + maxLabelHeight;
   //
-  var margin = {top: 100, right: 20, bottom: 30 + maxLabelHeight, left: 40},
-    width = containerWidth - margin.left - margin.right,
-    height = containerHeight - margin.top - margin.bottom + 100;
+  var margin = {top: 20, right: 20, bottom: 30 + maxLabelHeight, left: 40},
+    width = containerWidth - margin.left - margin.right - legendWidth,
+    height = containerHeight - margin.top - margin.bottom;
 
   var x = d3.scale.ordinal()
       .rangeRoundBands([0, width], .1);
@@ -212,26 +214,20 @@ function renderBarChart() {
   /*
   * Draw Legend
   */
-  var legend_tabs = [400, 420, 500, 675, 750];
   var legend = svg.selectAll(".legend")
       .data(barChartDomain.slice().reverse())
     .enter().append("g")
       .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(" + (i*width)/color.domain().length + ",-45)"; });
-  // var legend = svg.selectAll(".legend")
-  //     .data(barChartDomain.slice().reverse())
-  //   .enter().append("g")
-  //     .attr("class", "legend")
-  //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
   legend.append("rect")
-      .attr("x", 0)
+      .attr("x", width + legendWidth - 18)
       .attr("width", 18)
       .attr("height", 18)
       .style("fill", function(d,i) { return color(i);} );
 
   legend.append("text")
-      .attr("x", 40)
+      .attr("x", width + legendWidth - 24)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
